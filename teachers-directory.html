@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শিক্ষক ও সদস্য তালিকা | আল ইনতিবাহ</title>
+  <meta name="description" content="জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা-এর শিক্ষক ও সদস্যদের তথ্যভিত্তিক আলাদা পেজ।">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d3b2e;
+      --primary-deep: #07241c;
+      --secondary: #b78a2f;
+      --bg: #f7f4eb;
+      --surface: rgba(255, 255, 255, 0.82);
+      --text: #173128;
+      --muted: #617168;
+      --border: rgba(13, 59, 46, 0.12);
+      --shadow: 0 24px 60px rgba(8, 36, 28, 0.12);
+      --radius-lg: 30px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      color: var(--text);
+      line-height: 1.75;
+      background:
+        radial-gradient(circle at top left, rgba(183, 138, 47, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(13, 59, 46, 0.16), transparent 30%),
+        linear-gradient(180deg, #faf7ef 0%, var(--bg) 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 84px 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(250, 247, 239, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .nav-wrap {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 32px rgba(13, 59, 46, 0.18);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand h1 {
+      font-size: 1.14rem;
+      color: var(--primary-deep);
+    }
+
+    .brand p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), #155741);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 14px 26px rgba(13, 59, 46, 0.18);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--secondary), transparent);
+    }
+
+    .hero-copy h2,
+    .section-title h2 {
+      font-family: "Noto Serif Bengali", serif;
+      line-height: 1.2;
+      color: var(--primary-deep);
+    }
+
+    .hero-copy h2 {
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      margin-bottom: 16px;
+    }
+
+    .hero-copy p,
+    .section-title p,
+    .note-box p,
+    .source-card p,
+    .typed-card p,
+    .directory-card p,
+    .directory-table td,
+    .directory-table th,
+    .summary-card p {
+      color: var(--muted);
+    }
+
+    .hero-media {
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(13, 59, 46, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .stat-box {
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .stat-box strong {
+      display: block;
+      color: var(--primary-deep);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      margin-bottom: 12px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .source-card,
+    .typed-card,
+    .note-box,
+    .directory-card,
+    .summary-card {
+      padding: 26px;
+    }
+
+    .source-card img {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(13, 59, 46, 0.08);
+      margin-top: 18px;
+    }
+
+    .typed-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .typed-item {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .typed-item h3 {
+      font-size: 1.08rem;
+      color: var(--primary-deep);
+      margin-bottom: 6px;
+    }
+
+    .typed-item p {
+      margin-bottom: 4px;
+      font-size: 0.96rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary-deep);
+      font-size: 1.02rem;
+    }
+
+    .directory-stack {
+      display: grid;
+      gap: 22px;
+    }
+
+    .directory-card h3 {
+      color: var(--primary-deep);
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+
+    .directory-table-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(13, 59, 46, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .directory-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    .directory-table th,
+    .directory-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(13, 59, 46, 0.08);
+      vertical-align: top;
+      font-size: 0.96rem;
+    }
+
+    .directory-table th {
+      background: rgba(13, 59, 46, 0.08);
+      color: var(--primary-deep);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .directory-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .small-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(183, 138, 47, 0.12);
+      color: #7d5b17;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .note-box {
+      margin-top: 22px;
+      background: linear-gradient(135deg, rgba(13, 59, 46, 0.96), rgba(8, 36, 28, 0.94));
+      color: #eef7f3;
+    }
+
+    .note-box h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .note-box p {
+      color: rgba(238, 247, 243, 0.8);
+    }
+
+    .footer {
+      padding: 24px 0 40px;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      padding-top: 18px;
+      border-top: 1px solid rgba(13, 59, 46, 0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 0;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://scontent.fdac187-1.fna.fbcdn.net/v/t39.30808-6/257708520_2800850913539013_2812523569236471022_n.jpg?_nc_cat=103&amp;ccb=1-7&amp;_nc_sid=1d70fc&amp;_nc_eui2=AeG2pFwsCx5G1aIrCxG-jHlPKfX9s4h75Kcp9f2ziHvkp6NnPQz8dwrVRCoRYcpTUURgs873MaJg3FElxDwG2hfI&amp;_nc_ohc=QjeALM0HaDwQ7kNvwFZWAbD&amp;_nc_oc=AdqlS0dRycl6GZvAwCUXQIjRnoh1zZykeD-FiiUVH3nmoHQQBYCnu-k8rA9BH0bY4ZE&amp;_nc_zt=23&amp;_nc_ht=scontent.fdac187-1.fna&amp;_nc_gid=twZLBgN87k6y34B4e6y5sA&amp;_nc_ss=7a3a8&amp;oh=00_Afxz8EV1ZVJ8YTyMGINkKVu--OXKd7Rd9Cb7-6-LHA2ekA&amp;oe=69D1A28D" alt="জামিয়ার লোগো">
+        </div>
+        <div>
+          <h1>শিক্ষক ও সদস্য তালিকা</h1>
+          <p>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+        </div>
+      </div>
+      <a class="back-link" href="index.html">হোম পেজে ফিরুন</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">আলাদা তথ্যপেজ</div>
+          <h2>সকল শিক্ষকদের নাম, পদবী, ঠিকানা ও নাম্বার</h2>
+          <p>এই পেজে এখন আপনার দেওয়া structured list অনুযায়ী বিভাগ, নাম, জেলা ও মোবাইল নম্বরসহ পূর্ণাঙ্গ শিক্ষক-ডিরেক্টরি যুক্ত করা হয়েছে। স্ক্যানকৃত reference image-টিও রাখা হয়েছে, যাতে প্রয়োজনে মূল তালিকা মিলিয়ে দেখা যায়।</p>
+          <div class="stats">
+            <div class="stat-box">
+              <strong>মোট শিক্ষক</strong>
+              <span>৩৯ জন</span>
+            </div>
+            <div class="stat-box">
+              <strong>বিভাগ</strong>
+              <span>৫টি বিভাগে বিন্যস্ত</span>
+            </div>
+            <div class="stat-box">
+              <strong>রেফারেন্স</strong>
+              <span>স্ক্যানকৃত তালিকা সংযুক্ত</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <img src="teachers-directory.jpeg" alt="শিক্ষক ও সদস্য তালিকার স্ক্যানকৃত কপি">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">সংক্ষিপ্ত চিত্র</div>
+          <h2>বিভাগভিত্তিক শিক্ষকসংখ্যা</h2>
+          <p>নিচে আপনার দেওয়া তালিকা অনুযায়ী বিভাগভিত্তিক শিক্ষক ও কর্মীদের সংখ্যা সাজানো হয়েছে।</p>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card card">
+            <strong>কিতাব বিভাগ</strong>
+            <p>২২ জন</p>
+          </article>
+          <article class="summary-card card">
+            <strong>আবাসিক হিফজ</strong>
+            <p>২ জন</p>
+          </article>
+          <article class="summary-card card">
+            <strong>অনাবাসিক মক্তব</strong>
+            <p>৩ জন</p>
+          </article>
+          <article class="summary-card card">
+            <strong>মুয়াল্লিমবৃন্দ</strong>
+            <p>৬ জন</p>
+          </article>
+          <article class="summary-card card">
+            <strong>সাধারণ বিভাগ</strong>
+            <p>৬ জন</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">পূর্ণাঙ্গ ডিরেক্টরি</div>
+          <h2>বিভাগ, নাম, জেলা ও মোবাইল নম্বর</h2>
+          <p>আপনার দেওয়া তথ্য অনুযায়ী এখন প্রতিটি বিভাগ আলাদা করে সাজানো হয়েছে, যাতে দর্শনার্থীরা দ্রুত প্রয়োজনীয় তথ্য খুঁজে পান।</p>
+        </div>
+
+        <div class="directory-stack">
+          <article class="directory-card card">
+            <h3>কিতাব বিভাগ</h3>
+            <p>প্রধান দ্বীনি পাঠক্রম, কিতাব পাঠ এবং উচ্চতর ইসলামী শিক্ষার সঙ্গে সংশ্লিষ্ট শিক্ষকবৃন্দ।</p>
+            <div class="badge-row">
+              <span class="small-badge">মোট ২২ জন</span>
+            </div>
+            <div class="directory-table-wrap">
+              <table class="directory-table">
+                <thead>
+                  <tr>
+                    <th>বিভাগ</th>
+                    <th>নাম</th>
+                    <th>জেলা</th>
+                    <th>মোবাইল নম্বর</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>কিতাব বিভাগ</td><td>মুফতী মাহমুদুল হাসান হাফিজাহুল্লাহ</td><td>খুলনা</td><td>০১৯১২-০৮৭৬৭৬</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা আবদুল মতিন হাফিজাহুল্লাহ</td><td>রংপুর</td><td>০১৭৪৩-৯৩৩৪১০</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা আবুল বাশার মৃধা সাইফুল ইসলাম হাফিজাহুল্লাহ</td><td>বরগুনা</td><td>০১৭৯৭-৩১৮৯৮৩</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা আবদুর গফফার হাফিজাহুল্লাহ</td><td>রাজবাড়ী</td><td>০১৮১৭-৫৮৮৬১১</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা তাজাম্মুল হক হাফিজাহুল্লাহ</td><td>হবিগঞ্জ</td><td>০১৬৭৩-৯৩২১২৪</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা শরীফ মুহাম্মদ হাফিজাহুল্লাহ (অতিথি)</td><td>ময়মনসিংহ</td><td>০১৭৯৯-০১৯৯৯২</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মজিবুর রহমান হাফিজাহুল্লাহ</td><td>চট্টগ্রাম</td><td>০১৭৪৬-৮৭৯৪৫৮</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মহিউদ্দিন হাফিজাহুল্লাহ</td><td>কিশোরগঞ্জ</td><td>০১৯২৪-৪৬৩৬১০</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা ওয়াহিদুজ্জামান হাফিজাহুল্লাহ</td><td>কুমিল্লা</td><td>০১৮২৬-২৩৯৩৩৮</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা আবদুস সালাম হাকীম হাফিজাহুল্লাহ</td><td>মুন্সিগঞ্জ</td><td>০১৯৪২-৪৬২৯৬৯</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মনসুরুল হক হাফিজাহুল্লাহ</td><td>খুলনা</td><td>০১৭১১-০৭৯৬৬৯</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা ফিদাউস আহমাদ হাফিজাহুল্লাহ</td><td>নরসিংদী</td><td>০১৯৭২-৯৪৩৩৪০</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা জুবায়ের হাফিজাহুল্লাহ</td><td>সিলেট</td><td>০১৭৫৬-৯৩৪৪৭১</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা সাইফুজ্জামান হাফিজাহুল্লাহ</td><td>ঢাকা</td><td>০১৯১৩-৬৭৮২৭৩</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা ইমদাদুল হাসান হাফিজাহুল্লাহ</td><td>মুন্সিগঞ্জ</td><td>০১৮২৫-৫৫৮২৭৬</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মোসলেহ উদ্দিন হাফিজাহুল্লাহ</td><td>নাটোর</td><td>০১৯১০-২৮৩৯০৫</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মারুফ হুসাইন হাফিজাহুল্লাহ</td><td>নাটোর</td><td>০১৯৮৫-৭৭৯৮৭৫</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মসিহুল্লাহ হাফিজাহুল্লাহ</td><td>খুলনা</td><td>০১৮৪২-৮১৮৮৮৮</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা হাশিম সিদ্দিকী হাফিজাহুল্লাহ</td><td>ঢাকা</td><td>০১৭১৬-৪৪২৩০৫</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা জসিম উদ্দিন হাফিজাহুল্লাহ</td><td>কুমিল্লা</td><td>০১৮৫২-৪০০৩১৬</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা ইব্রাহীম খলীল হাফিজাহুল্লাহ</td><td>নারায়ণগঞ্জ</td><td>০১৮৩৫-৫০৫০৬৭</td></tr>
+                  <tr><td>কিতাব বিভাগ</td><td>মাওলানা মুফতি ফয়জুল্লাহ হাফিজাহুল্লাহ</td><td>গোপালগঞ্জ</td><td>০১৬২৭-০০৪৫৭৭</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="directory-card card">
+            <h3>আবাসিক হিফজ বিভাগ</h3>
+            <p>আবাসিক পরিবেশে হিফজুল কুরআনের সঙ্গে সংশ্লিষ্ট শিক্ষকবৃন্দ।</p>
+            <div class="badge-row">
+              <span class="small-badge">মোট ২ জন</span>
+            </div>
+            <div class="directory-table-wrap">
+              <table class="directory-table">
+                <thead>
+                  <tr>
+                    <th>বিভাগ</th>
+                    <th>নাম</th>
+                    <th>জেলা</th>
+                    <th>মোবাইল নম্বর</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>আবাসিক হিফজ</td><td>হাফেজ মাওলানা মাহফুজুল হক হাফিজাহুল্লাহ</td><td>গোপালগঞ্জ</td><td>০১৯১৫-০১৬১৮৯</td></tr>
+                  <tr><td>আবাসিক হিফজ</td><td>হাফেজ মাওলানা ওমর ফারুক হাফিজাহুল্লাহ</td><td>ফরিদপুর</td><td>০১৭৩৫-২৮৫৩৬৬</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="directory-card card">
+            <h3>অনাবাসিক মক্তব</h3>
+            <p>মক্তব-স্তরের পাঠদান, প্রাথমিক দ্বীনি শিক্ষা ও ভিত্তিমূলক অধ্যয়নের দায়িত্বে নিয়োজিত শিক্ষকবৃন্দ।</p>
+            <div class="badge-row">
+              <span class="small-badge">মোট ৩ জন</span>
+            </div>
+            <div class="directory-table-wrap">
+              <table class="directory-table">
+                <thead>
+                  <tr>
+                    <th>বিভাগ</th>
+                    <th>নাম</th>
+                    <th>জেলা</th>
+                    <th>মোবাইল নম্বর</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>অনাবাসিক মক্তব</td><td>মাওলানা মুহিব্বুল্লাহ মাসরুর হাফিজাহুল্লাহ</td><td>ময়মনসিংহ</td><td>০১৯২৭-৮১২১১১</td></tr>
+                  <tr><td>অনাবাসিক মক্তব</td><td>মাওলানা আবদুর রহিম হাফিজাহুল্লাহ</td><td>চাঁদপুর</td><td>০১৬১৪-৯৩০৩৩৩</td></tr>
+                  <tr><td>অনাবাসিক মক্তব</td><td>মাওলানা আবু হুরাইরা হাফিজাহুল্লাহ</td><td>ময়মনসিংহ</td><td>০১৬২৯-২৫৩০৩৫</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="directory-card card">
+            <h3>মুয়াল্লিমবৃন্দ</h3>
+            <p>প্রশিক্ষণ, তত্ত্বাবধান ও সহায়ক শিক্ষাব্যবস্থার সঙ্গে যুক্ত মুয়াল্লিমবৃন্দ।</p>
+            <div class="badge-row">
+              <span class="small-badge">মোট ৬ জন</span>
+            </div>
+            <div class="directory-table-wrap">
+              <table class="directory-table">
+                <thead>
+                  <tr>
+                    <th>বিভাগ</th>
+                    <th>নাম</th>
+                    <th>জেলা</th>
+                    <th>মোবাইল নম্বর</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ সালাহউদ্দীন</td><td>গোপালগঞ্জ</td><td>০১৯২৫-৬২০৭০৬</td></tr>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ মনসুর</td><td>শরীয়তপুর</td><td>০১৬২৬-৮৯৩৯৬৬</td></tr>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ হুমায়ুন</td><td>গোপালগঞ্জ</td><td>০১৯৫১-৯৩৩৫০৪</td></tr>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ মিরাজুল</td><td>গোপালগঞ্জ</td><td>০১৯৩৮-৮৭৫৫৮৪</td></tr>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ কায়েস মোল্লা</td><td>গোপালগঞ্জ</td><td>০১৯২৯-৮৮১৬১৫</td></tr>
+                  <tr><td>মুয়াল্লিমবৃন্দ</td><td>মুহাম্মদ ওসামা হাসান</td><td>ফরিদপুর</td><td>০১৭৯৮-২২৫২৯৫</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="directory-card card">
+            <h3>সাধারণ বিভাগ</h3>
+            <p>প্রতিষ্ঠানের সার্বিক সেবামূলক ও সাধারণ দায়িত্বপালনের সঙ্গে যুক্ত ব্যক্তিবর্গ।</p>
+            <div class="badge-row">
+              <span class="small-badge">মোট ৬ জন</span>
+            </div>
+            <div class="directory-table-wrap">
+              <table class="directory-table">
+                <thead>
+                  <tr>
+                    <th>বিভাগ</th>
+                    <th>নাম</th>
+                    <th>জেলা</th>
+                    <th>মোবাইল নম্বর</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব সিরাজুল ইসলাম সাহেব</td><td>টাঙ্গাইল</td><td>০১৮১৭-৫১৭৫১৬</td></tr>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব মোস্তাফিজুর রহমান সাহেব</td><td>নরসিংদী</td><td>০১৯০৪-৬১৭৩০৯</td></tr>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব বদরুজ্জামান সাহেব</td><td>রাজশাহী</td><td>০১৮২৭-২৫৪৪৫৪</td></tr>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব সাদেকুল আলিমুন সাহেব</td><td>ভোলা</td><td>০১৭৮৭-২৯৩৩৩২</td></tr>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব বেলাল হোসেন সাহেব</td><td>ভোলা</td><td>০১৮০৪-৬৬৭৪৪৭</td></tr>
+                  <tr><td>সাধারণ বিভাগ</td><td>জনাব আশিক হাসান সাহেব</td><td>টাঙ্গাইল</td><td>০১৮৩৪-৮৬৮৩৪৯</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">স্ক্যানকৃত রেফারেন্স</div>
+          <h2>মূল ছবির কপি</h2>
+          <p>তালিকার typed version-এর পাশাপাশি মূল স্ক্যানটিও রেফারেন্স হিসেবে রাখা হয়েছে।</p>
+        </div>
+
+        <article class="source-card card">
+          <h3>স্ক্যানকৃত মূল তালিকা</h3>
+          <p>প্রয়োজনে typed list-এর সাথে মিলিয়ে দেখার জন্য মূল source image নিচে দেওয়া হলো।</p>
+          <img src="teachers-directory.jpeg" alt="জামিয়ার সদস্যদের তালিকা">
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="note-box card">
+          <h3>নোট</h3>
+          <p>আপনার দেওয়া তালিকার `মুhammad` অংশগুলোকে পাঠযোগ্যতার জন্য `মুহাম্মদ` হিসেবে সাজানো হয়েছে। চাইলে পরের ধাপে আমি এই ডিরেক্টরিতে search box, filter button, বা print-ready layout-ও যোগ করে দিতে পারি।</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-wrap">
+      <p>© আল ইনতিবাহ | জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+      <p><a href="index.html">হোম পেজ</a></p>
+    </div>
+  </footer>
+</body>
+</html>

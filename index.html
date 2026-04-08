@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আল ইনতিবাহ | জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</title>
+  <meta name="description" content="আল ইনতিবাহ - জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা-এর অফিসিয়াল হোম পেজ।">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d3b2e;
+      --primary-deep: #07241c;
+      --secondary: #b78a2f;
+      --secondary-soft: rgba(183, 138, 47, 0.14);
+      --bg: #f7f4eb;
+      --bg-soft: #fcfaf4;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: #ffffff;
+      --text: #163127;
+      --muted: #5f6f67;
+      --border: rgba(13, 59, 46, 0.12);
+      --shadow: 0 24px 60px rgba(8, 36, 28, 0.12);
+      --radius-lg: 30px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      color: var(--text);
+      line-height: 1.75;
+      background:
+        radial-gradient(circle at top left, rgba(183, 138, 47, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(13, 59, 46, 0.18), transparent 30%),
+        linear-gradient(180deg, #f9f7f0 0%, var(--bg) 50%, #f4efe3 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section-title {
+      max-width: 720px;
+      margin-bottom: 30px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      color: var(--secondary);
+      letter-spacing: 0.04em;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--secondary), transparent);
+    }
+
+    .section-title h2 {
+      font-family: "Noto Serif Bengali", serif;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-md);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(249, 247, 240, 0.86);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13, 59, 46, 0.09);
+    }
+
+    .nav-wrap {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 18px 36px rgba(13, 59, 46, 0.22);
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-text h1 {
+      font-size: 1.18rem;
+      line-height: 1.2;
+      color: var(--primary-deep);
+    }
+
+    .brand-text p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: var(--primary);
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus-visible {
+      background: var(--secondary-soft);
+      color: var(--primary-deep);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 72px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 30px;
+      align-items: center;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 20px;
+      align-self: stretch;
+    }
+
+    .hero-media {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(13, 59, 46, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 36, 28, 0.08), rgba(7, 36, 28, 0.55));
+    }
+
+    .hero-copy h2 {
+      font-family: "Noto Serif Bengali", serif;
+      font-size: clamp(2.4rem, 5vw, 4.7rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+      color: var(--primary-deep);
+    }
+
+    .hero-copy p {
+      max-width: 620px;
+      font-size: 1.08rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(13, 59, 46, 0.12);
+      color: var(--primary-deep);
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .quick-link:hover,
+    .quick-link:focus-visible {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(13, 59, 46, 0.12);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #155741);
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(13, 59, 46, 0.18);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 36px rgba(13, 59, 46, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.56);
+      border-color: rgba(13, 59, 46, 0.14);
+      color: var(--primary);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .hero-point {
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .hero-point strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary-deep);
+      font-size: 1.1rem;
+    }
+
+    .hero-point span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .hero-meta {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .hero-meta .meta-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-meta strong {
+      color: var(--primary-deep);
+    }
+
+    .hero-panel {
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 250, 239, 0.94)),
+        linear-gradient(135deg, rgba(183, 138, 47, 0.12), rgba(13, 59, 46, 0.08));
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -70px -70px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(183, 138, 47, 0.20), transparent 68%);
+      z-index: -1;
+    }
+
+    .hero-panel .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(183, 138, 47, 0.12);
+      color: #7e5c17;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero-panel h3 {
+      font-family: "Noto Serif Bengali", serif;
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .hero-panel p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .hero-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-list li {
+      list-style: none;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .hero-list strong {
+      display: block;
+      color: var(--primary-deep);
+      margin-bottom: 4px;
+    }
+
+    .overview-grid,
+    .feature-grid,
+    .page-grid,
+    .teacher-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .overview-card {
+      padding: 26px 22px;
+    }
+
+    .overview-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+      color: var(--primary-deep);
+    }
+
+    .overview-card p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .about-card,
+    .timeline-card,
+    .anthem-card,
+    .cta-card {
+      padding: 30px;
+    }
+
+    .about-card p,
+    .timeline-card p,
+    .anthem-card p,
+    .cta-card p {
+      color: var(--muted);
+    }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .info-list li {
+      list-style: none;
+      padding: 16px 18px;
+      border-left: 4px solid var(--secondary);
+      background: rgba(183, 138, 47, 0.08);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .fact-box {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .fact-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary-deep);
+    }
+
+    .fact-box span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 0 22px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 0 6px rgba(183, 138, 47, 0.14);
+    }
+
+    .timeline-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--primary-deep);
+    }
+
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-card {
+      padding: 26px;
+    }
+
+    .feature-number {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--secondary), #d1a94d);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary-deep);
+    }
+
+    .feature-card p {
+      color: var(--muted);
+    }
+
+    .page-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .page-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 240px;
+      padding: 26px;
+      transition: 0.25s ease;
+    }
+
+    .page-card:hover,
+    .page-card:focus-within {
+      transform: translateY(-4px);
+      box-shadow: 0 28px 56px rgba(8, 36, 28, 0.14);
+    }
+
+    .page-card h3 {
+      font-size: 1.18rem;
+      color: var(--primary-deep);
+      margin-bottom: 12px;
+    }
+
+    .page-card p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .page-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .page-link::after {
+      content: "→";
+      transition: transform 0.2s ease;
+    }
+
+    .page-card:hover .page-link::after,
+    .page-card:focus-within .page-link::after {
+      transform: translateX(4px);
+    }
+
+    .teacher-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .teacher-card {
+      padding: 24px;
+    }
+
+    .teacher-card h3 {
+      font-size: 1.12rem;
+      color: var(--primary-deep);
+      margin-bottom: 6px;
+    }
+
+    .teacher-card .role {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(13, 59, 46, 0.08);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .teacher-card p {
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-size: 0.96rem;
+    }
+
+    .teacher-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .anthem-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .anthem-card blockquote {
+      font-family: "Noto Serif Bengali", serif;
+      font-size: clamp(1.15rem, 2.3vw, 1.55rem);
+      line-height: 1.9;
+      color: var(--primary-deep);
+    }
+
+    .anthem-meta {
+      display: grid;
+      gap: 14px;
+    }
+
+    .anthem-meta .meta-box {
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .anthem-meta h3 {
+      color: var(--primary-deep);
+      margin-bottom: 8px;
+    }
+
+    .anthem-meta p {
+      color: var(--muted);
+    }
+
+    .cta-card {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+      background:
+        linear-gradient(135deg, rgba(13, 59, 46, 0.96), rgba(8, 36, 28, 0.94)),
+        linear-gradient(135deg, rgba(183, 138, 47, 0.12), transparent);
+      color: #eef7f3;
+    }
+
+    .cta-card h2 {
+      font-family: "Noto Serif Bengali", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .cta-card p {
+      color: rgba(238, 247, 243, 0.78);
+    }
+
+    .cta-mini {
+      display: grid;
+      gap: 12px;
+    }
+
+    .cta-mini .mini-box {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .cta-mini strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .site-footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .about-wrap,
+      .anthem-layout,
+      .cta-card {
+        grid-template-columns: 1fr;
+      }
+
+      .overview-grid,
+      .feature-grid,
+      .page-grid,
+      .teacher-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .section {
+        padding: 72px 0;
+      }
+
+      .nav-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 0;
+      }
+
+      .nav-menu {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero-points,
+      .facts-grid,
+      .overview-grid,
+      .feature-grid,
+      .page-grid,
+      .teacher-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel,
+      .about-card,
+      .timeline-card,
+      .anthem-card,
+      .cta-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="আল ইনতিবাহ হোম">
+        <div class="brand-mark">
+          <img src="https://scontent.fdac187-1.fna.fbcdn.net/v/t39.30808-6/257708520_2800850913539013_2812523569236471022_n.jpg?_nc_cat=103&amp;ccb=1-7&amp;_nc_sid=1d70fc&amp;_nc_eui2=AeG2pFwsCx5G1aIrCxG-jHlPKfX9s4h75Kcp9f2ziHvkp6NnPQz8dwrVRCoRYcpTUURgs873MaJg3FElxDwG2hfI&amp;_nc_ohc=QjeALM0HaDwQ7kNvwFZWAbD&amp;_nc_oc=AdqlS0dRycl6GZvAwCUXQIjRnoh1zZykeD-FiiUVH3nmoHQQBYCnu-k8rA9BH0bY4ZE&amp;_nc_zt=23&amp;_nc_ht=scontent.fdac187-1.fna&amp;_nc_gid=twZLBgN87k6y34B4e6y5sA&amp;_nc_ss=7a3a8&amp;oh=00_Afxz8EV1ZVJ8YTyMGINkKVu--OXKd7Rd9Cb7-6-LHA2ekA&amp;oe=69D1A28D" alt="জামিয়ার লোগো">
+        </div>
+        <div class="brand-text">
+          <h1>আল ইনতিবাহ</h1>
+          <p>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+        </div>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="our-jamia.html">আমাদের জামিয়া</a></li>
+        <li><a href="history-of-jamia.html">প্রতিষ্ঠার ইতিহাস</a></li>
+        <li><a href="nesab-analysis.html">নেসাব</a></li>
+        <li><a href="teachers-directory.html">শিক্ষকবৃন্দ</a></li>
+        <li><a href="taranaye-jamia.html">তারানায়ে জামিয়া</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">ইলম, আদব ও আমলের সমন্বয়ে</div>
+          <h2>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</h2>
+          <p>আল ইনতিবাহ হলো জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা-এর পরিচিতিমূলক ওয়েবসাইট। এখানে প্রতিষ্ঠানের ইতিহাস, প্রশাসনিক পরিচিতি, বিভাগসমূহ, শিক্ষাসহযোগী কার্যক্রম, শিক্ষকবৃন্দ এবং ভবিষ্যৎ সম্প্রসারণ পরিকল্পনার সংক্ষিপ্ত ও সুশৃঙ্খল উপস্থাপন রাখা হয়েছে।</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pages">সকল বিভাগ দেখুন</a>
+            <a class="btn btn-secondary" href="our-jamia.html">জামিয়া সম্পর্কে</a>
+          </div>
+
+          <div class="quick-links">
+            <a class="quick-link" href="history-of-jamia.html">১. জামিয়ার প্রতিষ্ঠার ইতিহাস</a>
+            <a class="quick-link" href="our-jamia.html">২. আমাদের জামিয়া</a>
+            <a class="quick-link" href="nesab-analysis.html">৩. নেসাব ও নেসাব বিশ্লেশন</a>
+            <a class="quick-link" href="teachers-directory.html">৪. সকল শিক্ষকদের নাম, পদবী, ঠিকানা, নাম্বার</a>
+            <a class="quick-link" href="taranaye-jamia.html">৫. তারানায়ে জামিয়া</a>
+          </div>
+
+          <div class="hero-points">
+            <div class="hero-point">
+              <strong>প্রতিষ্ঠা</strong>
+              <span>২০০৬ সনে প্রতিষ্ঠিত দ্বীনি শিক্ষাপ্রতিষ্ঠান</span>
+            </div>
+            <div class="hero-point">
+              <strong>ছাত্র</strong>
+              <span>বর্তমানে ৫৬৩ জন ছাত্র অধ্যয়নরত</span>
+            </div>
+            <div class="hero-point">
+              <strong>শিক্ষক</strong>
+              <span>৩৭ জন শিক্ষক দ্বারা পাঠদান পরিচালিত</span>
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <div class="meta-item"><strong>অবস্থান:</strong> ২০২জি/১১, সড়ক নং-৬, মোহাম্মদী হাউজিং লিমিটেড, মোহাম্মদপুর, ঢাকা-১২০৭।</div>
+            <div class="meta-item"><strong>প্রস্তাবিত ২য় ক্যাম্পাস:</strong> সানভ্যালি আবাসন প্রকল্প, সাতারকুল, বাড্ডা।</div>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <aside class="hero-media">
+            <img src="https://scontent.fdac187-1.fna.fbcdn.net/v/t39.30808-6/559161810_1283697360224767_5170302791617059655_n.jpg?_nc_cat=109&amp;ccb=1-7&amp;_nc_sid=2a1932&amp;_nc_eui2=AeFLU4aTeqUbmNZBXXESzrH1HsT4cXKwe0YexPhxcrB7Rs_yjvc9cfHM_Vud9FRZEAfE-ORJhNdd8E3ZsIQGkEnH&amp;_nc_ohc=7egc87-5qmgQ7kNvwHAXGz6&amp;_nc_oc=AdrYRJeY-_xbFOuOgKbNt0sx3dWoFwNT08ScHQhCVAKhuHhW7Hg1CSTPQ2l2FpN73NA&amp;_nc_zt=23&amp;_nc_ht=scontent.fdac187-1.fna&amp;_nc_gid=QZ1cNm2gVQ3tVkq0hn40Kw&amp;_nc_ss=7a3a8&amp;oh=00_AfxHRNhzkCBpGVGirqur3J2Mp1AU94RTF7V8Gun-Ept2KA&amp;oe=69D1A1EC" alt="জামিয়ার কভার ছবি">
+          </aside>
+
+          <aside class="hero-panel card">
+            <div class="badge">প্রশাসনিক পরিচিতি</div>
+            <h3>প্রতিষ্ঠান পরিচালনার মূল দায়িত্বশীলগণ</h3>
+            <p>জামিয়ার প্রশাসনিক নেতৃত্ব ও শুরা কাঠামোর গুরুত্বপূর্ণ দায়িত্বশীলদের পরিচিতি এখানে সংক্ষিপ্তভাবে তুলে ধরা হয়েছে।</p>
+            <ul class="hero-list">
+              <li>
+                <strong>মজলিসে শুরার সদর</strong>
+                <span>মাওলানা আব্দুল মতিন হাফি.</span>
+              </li>
+              <li>
+                <strong>মুহতামিম</strong>
+                <span>মুফতি মাহমুদুল হাসান হাফি.</span>
+              </li>
+              <li>
+                <strong>নায়েবে মুহতামিম</strong>
+                <span>মাওলানা আব্দুল গাফফার হাফি.</span>
+              </li>
+              <li>
+                <strong>শাইখুল হাদিস</strong>
+                <span>মাও. আবুল বাশার মুহা. সাইফুল ইসলাম দা.বা.</span>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="overview-grid">
+          <article class="overview-card card">
+            <h3>বর্তমান ক্যাম্পাস</h3>
+            <p>২০২জি/১১, সড়ক নং-৬, মোহাম্মদী হাউজিং লিমিটেড, মোহাম্মদপুর, ঢাকা-১২০৭ এ জামিয়ার বর্তমান কার্যক্রম পরিচালিত হচ্ছে।</p>
+          </article>
+          <article class="overview-card card">
+            <h3>অস্থায়ী ক্যাম্পাস</h3>
+            <p>সূচনাকাল থেকে দশ বছর ২৩ নং লিংক রোড, তেজগাঁও শিল্পাঞ্চল, ঢাকায় জামিয়ার অস্থায়ী ক্যাম্পাস পরিচালিত হয়েছে।</p>
+          </article>
+          <article class="overview-card card">
+            <h3>প্রস্তাবিত ২য় ক্যাম্পাস</h3>
+            <p>সানভ্যালি আবাসন প্রকল্প, সাতারকুল, বাড্ডায় ভবিষ্যৎ সম্প্রসারণের লক্ষ্যে ২য় ক্যাম্পাসের পরিকল্পনা রয়েছে।</p>
+          </article>
+          <article class="overview-card card">
+            <h3>প্রতিষ্ঠাতা পরিষদ</h3>
+            <p>একদল নিবেদিত আলেমের সম্মিলিত উদ্যোগে প্রতিষ্ঠানটি প্রতিষ্ঠিত ও পরিচালিত হয়েছে, যা নিচে বিস্তারিতভাবে যুক্ত করা হয়েছে।</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">আমাদের জামিয়া</div>
+          <h2>দ্বীনি শিক্ষা, আধ্যাত্মিকতা ও সুশৃঙ্খল তারবিয়াতের এক সমন্বিত অঙ্গন</h2>
+          <p>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা একটি পরিকল্পিত দ্বীনি শিক্ষাকেন্দ্র, যেখানে পাঠদান, তারবিয়াত, ভাষা-চর্চা, দাওয়াহ এবং সামাজিক দায়িত্ববোধকে একসাথে এগিয়ে নেওয়া হয়।</p>
+        </div>
+
+        <div class="about-wrap">
+          <article class="about-card card">
+            <p>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা ইলমে দ্বীন অর্জনের পাশাপাশি শিক্ষার্থীদের আদব-আখলাক, বক্তৃতা দক্ষতা, ভাষাগত উন্নয়ন, গবেষণামনস্কতা ও দাওয়াতি মানসিকতা গড়ে তোলায় গুরুত্ব দেয়। অনাবাসিক মক্তব থেকে শুরু করে হিফজ, কিতাব এবং দাওয়াহ ও তুলনামূলক ধর্মতত্ত্ব বিভাগ পর্যন্ত বহুমাত্রিক শিক্ষাব্যবস্থার মাধ্যমে একটি ভারসাম্যপূর্ণ ইসলামী শিক্ষা পরিবেশ গড়ে তোলা হয়েছে।</p>
+            <ul class="info-list">
+              <li>অনাবাসিক মক্তব, নাযেরা ও হিফজুল কুরআন, আবাসিক হিফজুল কুরআন, কিতাব এবং দাওয়াহ বিভাগসমূহের সমন্বয়</li>
+              <li>আরবি, ইংরেজি ও বাংলা তিন ভাষায় দেয়ালিকা, বক্তৃতা প্রশিক্ষণ, প্রবন্ধ প্রতিযোগিতা ও তরবিয়তি মজলিস</li>
+              <li>রিসালাতুল ইসলাম বিডি প্রকাশনা, দীনিয়াত শিক্ষা কোর্স, দ্বীনি কনটেন্ট নির্মাণ ও দাওয়াতি কার্যক্রম</li>
+            </ul>
+            <div class="facts-grid">
+              <div class="fact-box">
+                <strong>ছাত্রসংখ্যা</strong>
+                <span>৫৬৩ জন</span>
+              </div>
+              <div class="fact-box">
+                <strong>শিক্ষকসংখ্যা</strong>
+                <span>৩৭ জন</span>
+              </div>
+              <div class="fact-box">
+                <strong>বর্তমান ঠিকানা</strong>
+                <span>মোহাম্মদপুর, ঢাকা-১২০৭</span>
+              </div>
+              <div class="fact-box">
+                <strong>প্রস্তাবিত সম্প্রসারণ</strong>
+                <span>সাতারকুল, বাড্ডা</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline-card card" id="history">
+            <div class="kicker">প্রতিষ্ঠার ইতিহাস</div>
+            <p>জামিয়ার সূচনা ও স্থানান্তরের ধারাবাহিক ইতিহাস সংক্ষেপে এখানে উপস্থাপন করা হলো, যাতে দর্শনার্থীরা প্রতিষ্ঠানের বিকাশ সম্পর্কে স্পষ্ট ধারণা পান।</p>
+            <div class="timeline">
+              <div class="timeline-item">
+                <strong>২০০৬ সালে প্রতিষ্ঠা</strong>
+                <span>বাঁশের তৈরী স্থাপনায়, নিকেতন, গুলশান-১, ঢাকা-১২১২ এ জামিয়ার আনুষ্ঠানিক যাত্রা শুরু হয়।</span>
+              </div>
+              <div class="timeline-item">
+                <strong>অস্থায়ী ক্যাম্পাস পর্যায়</strong>
+                <span>সূচনাকাল থেকে দশ বছর ২৩ নং লিংক রোড, তেজগাঁও শিল্পাঞ্চল, ঢাকায় অস্থায়ী ক্যাম্পাসের মাধ্যমে শিক্ষা কার্যক্রম চলমান ছিল।</span>
+              </div>
+              <div class="timeline-item">
+                <strong>বর্তমান ও সম্প্রসারণ</strong>
+                <span>বর্তমানে মোহাম্মদপুরে কার্যক্রম চলছে এবং সানভ্যালি আবাসন প্রকল্প, সাতারকুল, বাড্ডায় প্রস্তাবিত ২য় ক্যাম্পাসের পরিকল্পনা রয়েছে।</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="curriculum">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">নেসাব ও নেসাব বিশ্লেষণ</div>
+          <h2>ধাপে ধাপে সাজানো পাঠক্রমের জন্য একটি স্বচ্ছ উপস্থাপনা</h2>
+          <p>জামিয়ার বিভাগভিত্তিক পাঠক্রম এখানে সংক্ষেপে সাজানো হয়েছে। পরে চাইলে প্রতিটি বিভাগের জন্য আলাদা বিস্তারিত পেজ যুক্ত করা যাবে।</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card card">
+            <div class="feature-number">১</div>
+            <h3>মক্তব ও কুরআন বিভাগ</h3>
+            <p>অনাবাসিক মক্তব, নাযেরা ও হিফজুল কুরআন বিভাগ এবং আবাসিক হিফজুল কুরআন বিভাগে কুরআন শিক্ষার দৃঢ় ভিত্তি গড়ে তোলা হয়।</p>
+          </article>
+          <article class="feature-card card">
+            <div class="feature-number">২</div>
+            <h3>কিতাব বিভাগ</h3>
+            <p>আরবি, ফিকহ, হাদিস, তাফসির, আকায়েদ ও সংশ্লিষ্ট দ্বীনি শিক্ষার সুসংগঠিত ধারা কিতাব বিভাগে পরিচালিত হয়।</p>
+          </article>
+          <article class="feature-card card">
+            <div class="feature-number">৩</div>
+            <h3>দাওয়াহ ও তুলনামূলক ধর্মতত্ত্ব</h3>
+            <p>দাওয়াহ, সমকালীন চিন্তাচর্চা, তুলনামূলক ধর্মতত্ত্ব এবং উম্মাহর বুদ্ধিবৃত্তিক প্রস্তুতি গড়ে তোলার লক্ষ্যে এই বিভাগ পরিচালিত হয়।</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pages">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">ভবিষ্যৎ পেজসমূহ</div>
+          <h2>পরে লিংক যোগ করার জন্য প্রস্তুত বিভাগ</h2>
+          <p>নিচের কার্ডগুলোতে আপাতত হোম পেজের ভেতরকার নোঙর বা placeholder রাখা হয়েছে। আপনি চাইলে পরে `href` পরিবর্তন করে আলাদা `.html` পেজ বা অন্য লিংক যুক্ত করতে পারবেন।</p>
+        </div>
+
+        <div class="page-grid">
+          <article class="page-card card">
+            <div>
+              <h3>জামিয়ার প্রতিষ্ঠার ইতিহাস</h3>
+              <p>প্রতিষ্ঠার পটভূমি, বিকাশধারা, মাইলফলক ও গুরুত্বপূর্ণ ঘটনার পূর্ণ বিবরণ রাখার জন্য নির্ধারিত।</p>
+            </div>
+            <a class="page-link" href="history-of-jamia.html">পেজটি খুলুন</a>
+          </article>
+          <article class="page-card card">
+            <div>
+              <h3>আমাদের জামিয়া</h3>
+              <p>জামিয়ার উদ্দেশ্য, লক্ষ্য, বৈশিষ্ট্য, পরিবেশ এবং পরিচালনা দর্শন বিস্তারিতভাবে তুলে ধরার পেজ।</p>
+            </div>
+            <a class="page-link" href="our-jamia.html">পেজটি খুলুন</a>
+          </article>
+          <article class="page-card card">
+            <div>
+              <h3>নেসাব ও বিশ্লেষণ</h3>
+              <p>শ্রেণি, বিষয়, কিতাব ও শিক্ষাস্তরভিত্তিক পূর্ণাঙ্গ পাঠক্রম এবং ব্যাখ্যামূলক বিশ্লেষণের জন্য প্রস্তুত।</p>
+            </div>
+            <a class="page-link" href="nesab-analysis.html">পেজটি খুলুন</a>
+          </article>
+          <article class="page-card card">
+            <div>
+              <h3>সকল শিক্ষকদের তালিকা</h3>
+              <p>প্রতিটি শিক্ষকের নাম, পদবী, ঠিকানা এবং মোবাইল নম্বরসহ সাজানো ডিরেক্টরি আকারে উপস্থাপনের উপযুক্ত।</p>
+            </div>
+            <a class="page-link" href="teachers-directory.html">পেজটি খুলুন</a>
+          </article>
+          <article class="page-card card">
+            <div>
+              <h3>তারানায়ে জামিয়া</h3>
+              <p>সম্পূর্ণ তারানা, অডিও/ভিডিও লিংক, লিরিক্স এবং প্রাসঙ্গিক ব্যাখ্যা রাখার জন্য একটি আলাদা সৃজনশীল পেজ।</p>
+            </div>
+            <a class="page-link" href="taranaye-jamia.html">পেজটি খুলুন</a>
+          </article>
+          <article class="page-card card">
+            <div>
+              <h3>যোগাযোগ ও অফিস তথ্য</h3>
+              <p>ঠিকানা, ফোন নম্বর, অফিস সময়সূচি, ম্যাপ এবং অনলাইন যোগাযোগের মাধ্যম যুক্ত করার জন্য অতিরিক্ত বিভাগ।</p>
+            </div>
+            <a class="page-link" href="#footer">লিংক পরে যুক্ত করুন</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="teachers">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">শিক্ষকবৃন্দ</div>
+          <h2>প্রধান দায়িত্বশীল ও প্রতিষ্ঠাতাদের পরিচিতি</h2>
+          <p>পূর্ণ শিক্ষক ও সদস্য তালিকার জন্য এখন একটি আলাদা পেজ তৈরি করা হয়েছে। নিচে প্রধান দায়িত্বশীলদের সংক্ষিপ্ত পরিচিতি আছে, আর বিস্তারিত তালিকা নতুন পেজে দেখা যাবে।</p>
+        </div>
+
+        <div class="teacher-grid">
+          <article class="teacher-card card">
+            <h3>মুফতি মাহমুদুল হাসান হাফি.</h3>
+            <span class="role">প্রতিষ্ঠাতা ও মুহতামিম</span>
+            <p>তথ্য: প্রতিষ্ঠাতা পরিষদের অন্যতম সদস্য</p>
+            <p>অবস্থান: জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+          </article>
+          <article class="teacher-card card">
+            <h3>মাওলানা আব্দুল মতিন হাফি.</h3>
+            <span class="role">প্রতিষ্ঠাতা ও মজলিসে শুরার সদর</span>
+            <p>তথ্য: প্রতিষ্ঠাতা পরিষদের অন্যতম সদস্য</p>
+            <p>অবস্থান: জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+          </article>
+          <article class="teacher-card card">
+            <h3>মাও. আবুল বাশার মুহা. সাইফুল ইসলাম দা.বা.</h3>
+            <span class="role">প্রতিষ্ঠাতা ও শাইখুল হাদিস</span>
+            <p>তথ্য: প্রতিষ্ঠাতা পরিষদের অন্যতম সদস্য</p>
+            <p>অবস্থান: জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+          </article>
+          <article class="teacher-card card">
+            <h3>মাওলানা আব্দুল গাফফার হাফি.</h3>
+            <span class="role">প্রতিষ্ঠাতা ও নায়েবে মুহতামিম</span>
+            <p>তথ্য: প্রতিষ্ঠাতা পরিষদের অন্যতম সদস্য</p>
+            <p>অবস্থান: জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+          </article>
+          <article class="teacher-card card">
+            <h3>মুফতি মোহাম্মাদ আলী হাফি.</h3>
+            <span class="role">প্রতিষ্ঠাতা</span>
+            <p>তথ্য: প্রতিষ্ঠাতা পরিষদের অন্যতম সদস্য</p>
+            <p>অবস্থান: জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+          </article>
+        </div>
+        <p class="teacher-note">পূর্ণ শিক্ষক তালিকা, ঠিকানা ও মোবাইল নম্বর পরে যুক্ত করলে এই সেকশনটি আরও বিস্তৃত ডিরেক্টরি আকারে সাজানো যাবে।</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="teachers-directory.html">পূর্ণ শিক্ষক তালিকার পেজ দেখুন</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="anthem">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">তারানায়ে জামিয়া</div>
+          <h2>জামিয়ার চেতনা, লক্ষ্য ও ভালোবাসার কণ্ঠস্বর</h2>
+          <p>এখানে আপাতত তারানার জন্য একটি নান্দনিক উপস্থাপনা রাখা হয়েছে। পরে আপনি পুরো লিরিক্স, অডিও, ভিডিও বা আবৃত্তির লিংক যুক্ত করতে পারবেন।</p>
+        </div>
+
+        <div class="anthem-layout">
+          <article class="anthem-card card">
+            <blockquote>
+              ইলমের আলো ছড়াক প্রাণে,<br>
+              আদব থাকুক আমলখানায়,<br>
+              দ্বীনের পথে দৃঢ় প্রত্যয়,<br>
+              জেগে উঠুক আল ইনতিবাহে।
+            </blockquote>
+          </article>
+
+          <div class="anthem-meta">
+            <div class="meta-box">
+              <h3>শিক্ষাসহযোগী কার্যক্রম</h3>
+              <p>আরবি, ইংরেজি ও বাংলা তিন ভাষায় দেয়ালিকা, বক্তৃতা প্রশিক্ষণ, বিষয়ভিত্তিক প্রবন্ধ প্রতিযোগিতা, ছাত্রপাঠাগার, উন্মুক্ত মাকতাবা এবং তরবিয়তি মজলিস নিয়মিত কার্যক্রমের অংশ।</p>
+            </div>
+            <div class="meta-box">
+              <h3>অন্যান্য কার্যক্রম</h3>
+              <p>রিসালাতুল ইসলাম বিডি প্রকাশনা বিভাগ, দীনিয়াত শিক্ষা কোর্স, সোশ্যাল প্লাটফর্মে দ্বীনি কনটেন্ট নির্মাণ এবং দাওয়াত ও তাবলীগের কাজও পরিচালিত হয়।</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-card card">
+          <div>
+            <h2>আল ইনতিবাহ এখন জামিয়ার তথ্যভিত্তিক হোম পেজ হিসেবে প্রস্তুত</h2>
+            <p>এখানে প্রতিষ্ঠানের পরিচিতি, ইতিহাস, বিভাগ, দায়িত্বশীলদের তথ্য, কার্যক্রম এবং ভবিষ্যৎ পেজ কাঠামো যুক্ত হয়েছে। পরের ধাপে চাইলে আমি আপনার জন্য আলাদা “শিক্ষক তালিকা”, “বিস্তারিত ইতিহাস”, “নেসাব বিশ্লেষণ” বা “যোগাযোগ” পেজও তৈরি করে দিতে পারি।</p>
+          </div>
+          <div class="cta-mini">
+            <div class="mini-box">
+              <strong>প্রতিষ্ঠিত</strong>
+              <span>২০০৬ সাল থেকে ধারাবাহিক শিক্ষা কার্যক্রম</span>
+            </div>
+            <div class="mini-box">
+              <strong>সম্প্রসারণযোগ্য</strong>
+              <span>বিস্তারিত পেজ যোগ করার জন্য কাঠামো প্রস্তুত</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="footer">
+    <div class="container footer-wrap">
+      <p>© আল ইনতিবাহ | জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+      <p>ঠিকানা: ২০২জি/১১, সড়ক নং-৬, মোহাম্মদী হাউজিং লিমিটেড, মোহাম্মদপুর, ঢাকা-১২০৭</p>
+    </div>
+  </footer>
+</body>
+</html>

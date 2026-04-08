@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমাদের জামিয়া | আল ইনতিবাহ</title>
+  <meta name="description" content="জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা-এর আমাদের জামিয়া বিষয়ক আলাদা পেজ।">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d3b2e;
+      --primary-deep: #07241c;
+      --secondary: #b78a2f;
+      --bg: #f7f4eb;
+      --surface: rgba(255, 255, 255, 0.84);
+      --text: #193229;
+      --muted: #617168;
+      --border: rgba(13, 59, 46, 0.12);
+      --shadow: 0 24px 60px rgba(8, 36, 28, 0.12);
+      --radius-lg: 30px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --container: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      color: var(--text);
+      line-height: 1.9;
+      background:
+        radial-gradient(circle at top left, rgba(183, 138, 47, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(13, 59, 46, 0.16), transparent 30%),
+        linear-gradient(180deg, #faf7ef 0%, var(--bg) 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(250, 247, 239, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13, 59, 46, 0.08);
+    }
+
+    .nav-wrap {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 32px rgba(13, 59, 46, 0.18);
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand h1 {
+      font-size: 1.15rem;
+      color: var(--primary-deep);
+    }
+
+    .brand p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), #155741);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 14px 26px rgba(13, 59, 46, 0.18);
+    }
+
+    .section {
+      padding: 84px 0;
+    }
+
+    .hero {
+      padding: 84px 0 48px;
+    }
+
+    .hero-box {
+      padding: 34px;
+      background:
+        linear-gradient(135deg, rgba(13, 59, 46, 0.96), rgba(8, 36, 28, 0.94)),
+        linear-gradient(135deg, rgba(183, 138, 47, 0.12), transparent);
+      color: #eef7f3;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: #dabb73;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, #dabb73, transparent);
+    }
+
+    .hero-box h2,
+    .section-title h2,
+    .content-card h3 {
+      font-family: "Noto Serif Bengali", serif;
+    }
+
+    .hero-box h2 {
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-box p,
+    .toc-card p,
+    .content-card p,
+    .section-title p,
+    .note-card p {
+      color: var(--muted);
+    }
+
+    .hero-box p {
+      color: rgba(238, 247, 243, 0.84);
+      max-width: 820px;
+    }
+
+    .toc-card,
+    .content-card,
+    .note-card {
+      padding: 28px;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      line-height: 1.2;
+      color: var(--primary-deep);
+      margin-bottom: 12px;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .toc-item {
+      display: block;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(13, 59, 46, 0.08);
+      color: var(--primary-deep);
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .toc-item:hover,
+    .toc-item:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(13, 59, 46, 0.12);
+      background: #fff;
+    }
+
+    .content-stack {
+      display: grid;
+      gap: 22px;
+    }
+
+    .content-card h3 {
+      font-size: 1.45rem;
+      color: var(--primary-deep);
+      margin-bottom: 14px;
+    }
+
+    .content-card p + p {
+      margin-top: 16px;
+    }
+
+    .highlight {
+      border-left: 4px solid var(--secondary);
+      padding-left: 16px;
+      margin-top: 18px;
+      color: var(--text);
+    }
+
+    .note-card {
+      background: linear-gradient(135deg, rgba(183, 138, 47, 0.12), rgba(255, 255, 255, 0.9));
+    }
+
+    .note-card h3 {
+      color: var(--primary-deep);
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      padding: 24px 0 40px;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      padding-top: 18px;
+      border-top: 1px solid rgba(13, 59, 46, 0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .toc-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .section,
+      .hero {
+        padding: 72px 0;
+      }
+
+      .nav-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 0;
+      }
+
+      .toc-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://scontent.fdac187-1.fna.fbcdn.net/v/t39.30808-6/257708520_2800850913539013_2812523569236471022_n.jpg?_nc_cat=103&amp;ccb=1-7&amp;_nc_sid=1d70fc&amp;_nc_eui2=AeG2pFwsCx5G1aIrCxG-jHlPKfX9s4h75Kcp9f2ziHvkp6NnPQz8dwrVRCoRYcpTUURgs873MaJg3FElxDwG2hfI&amp;_nc_ohc=QjeALM0HaDwQ7kNvwFZWAbD&amp;_nc_oc=AdqlS0dRycl6GZvAwCUXQIjRnoh1zZykeD-FiiUVH3nmoHQQBYCnu-k8rA9BH0bY4ZE&amp;_nc_zt=23&amp;_nc_ht=scontent.fdac187-1.fna&amp;_nc_gid=twZLBgN87k6y34B4e6y5sA&amp;_nc_ss=7a3a8&amp;oh=00_Afxz8EV1ZVJ8YTyMGINkKVu--OXKd7Rd9Cb7-6-LHA2ekA&amp;oe=69D1A28D" alt="জামিয়ার লোগো">
+        </div>
+        <div>
+          <h1>আমাদের জামিয়া</h1>
+          <p>জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+        </div>
+      </div>
+      <a class="back-link" href="index.html">হোম পেজে ফিরুন</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-box card">
+          <div class="kicker">আলাদা তথ্যপেজ</div>
+          <h2>আমাদের জামিয়া</h2>
+          <p>এই পেজে জামিয়ার সূচনা, শিক্ষা-ব্যবস্থা, ফিকির ও আদর্শ, আসাতিযায়ে কেরাম এবং সময়ের প্রেক্ষাপটে জামিয়ার অবস্থান নিয়ে আপনার দেওয়া লেখাগুলো পাঠযোগ্য ও বিভাগভিত্তিকভাবে সাজানো হয়েছে।</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="toc-card card">
+          <div class="section-title">
+            <h2>প্রধান শিরোনাম</h2>
+            <p>নিচের বিভাগগুলোতে ক্লিক করে সরাসরি সংশ্লিষ্ট অংশে যাওয়া যাবে।</p>
+          </div>
+          <div class="toc-list">
+            <a class="toc-item" href="#intro">সূচনা কথা</a>
+            <a class="toc-item" href="#education">শিক্ষা ব্যবস্থা</a>
+            <a class="toc-item" href="#fikr">ফিকির ও আদর্শ</a>
+            <a class="toc-item" href="#teachers">আসাতিযায়ে কেরাম</a>
+            <a class="toc-item" href="#ideal">আদর্শ প্রতিষ্ঠান জামিয়া</a>
+            <a class="toc-item" href="#twenty-years">দুই দশক পেরিয়ে</a>
+            <a class="toc-item" href="#ending">শেষ কথা</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-stack">
+        <article class="content-card card" id="intro">
+          <h3>সূচনা কথা</h3>
+          <p>তামাম দুনিয়ার সব ব্যবস্থা ভেঙ্গে দিয়ে ইউরোপের নয়া আগ্রাসী ঢেউ যখন ভারতভূমিতেও আঘাত হানে, উপমহাদেশের শত শত বছরের চেতনা ও বিশ্বাসের সুউচ্চ মিনারগুলোকে ধসিয়ে দিতে শুরু করে একে একে, তখন এই প্রলয়ঙ্করী ঝড় যেখানে এসে বাধাপ্রাপ্ত হয়, বরং যেখান থেকে ঝড়ের গতিমুখ পাল্টে যায়, তা হলো দারুল উলূম দেওবন্দ। চরম সংকট আর ঘন কালো অন্ধকারের মাঝে দারুল উলূম থেকে তখন দ্বীন ও ঈমানের, ইলম ও ফিকিরের এমন এক জোয়ার সৃষ্টি হয় যার ফলে আঁধারের সকল ঘনঘটা আর মলিনতার কালো মেঘগুলো মিলিয়ে যেতে শুরু করে ধীরে ধীরে।</p>
+          <p>প্রতিষ্ঠালগ্ন থেকেই দারুল উলূম দেওবন্দের লক্ষ্য ও কর্মপন্থা, নেসাব ও পাঠ্যসূচি এবং সবকিছুর প্রয়োগ ও বাস্তবায়ন এতটাই সুপরিকল্পিত ও মজবুত ছিলো যে, দারুল উলূম হয়ে উঠেছিলো সে যুগের সংস্কার, আন্দোলন ও বিপ্লবের এক সূতিকাগার। দীর্ঘ ব্রিটিশ শাসনের ফলে উপমহাদেশের দ্বীনী অঙ্গনে যে অভাব ও শূন্যতা তৈরী হয়েছিলো, সেসব শূন্যতা দারুল উলূম পূরণ করতে পেরেছিলো অবিশ্বাস্যরূপে। শিক্ষা ও জ্ঞান, তাহকীক ও গবেষণা, আত্মশুদ্ধি ও তাসাউফ, সমাজ সংস্কার এমনকি রাষ্ট্র ও মাঠের রাজনীতি, প্রত্যেক অঙ্গনের জন্যই তৈরী হয়েছিলো যুগের শ্রেষ্ঠ ব্যক্তি ও রিজাল।</p>
+          <p>দারুল উলূমের এই সফল নেসাব ও কর্মপন্থা নিয়েই পরবর্তীতে উপমহাদেশে গড়ে ওঠে বহু দ্বীনী ও কওমী মাদারেস। দীর্ঘ কালজুড়ে সময়ের দাবী পূরণ করে এসেছে এসব প্রতিষ্ঠান।</p>
+          <p>কিন্তু সময় থেমে থাকেনি। পৃথিবী নামক এই গোলকের সদা আবর্তনে সময় এগিয়ে যায় অনেক দূর। মানুষ চষে বেড়াতে শুরু করে আকাশ, মহাকাশ, গ্রহ-উপগ্রহ, সর্বত্র। এক হাতের মুঠোয় চলে আসে পুরো পৃথিবী। মানুষে মানুষে প্রতিনিয়ত যোগাযোগের ফলে জন্ম নেয় বহু চিন্তা, বাদ ও মতবাদ। তাই সময়ের দাবী হয়ে ওঠে এমন এক শিক্ষাব্যবস্থা গড়ে তোলা যার মাধ্যমে একজন আলেম পরিবর্তিত এই নতুন পৃথিবীর মুখোমুখি হতে পারবে, পূর্ণ আত্মবিশ্বাসের সঙ্গে নতুন যুগের চ্যালেঞ্জগুলোর মোকাবেলা করবে, সমাজ ও রাষ্ট্রে তৈরি হওয়া নতুন নতুন শূন্যতাগুলো পূরণে অবদান রাখতে সক্ষম হবে যেমন সক্ষম হয়েছিলেন সে যুগে উলামায়ে দেওবন্দ।</p>
+          <p>বস্তুত সময়ের এই দাবী ও বাস্তবতা সামনে রেখেই জামিয়াতুল উলূমিল ইসলামিয়া ঢাকার নতুন আঙ্গিকে পথচলা। আকাবিরের মাসলাক থেকে সরে গিয়ে নতুন কোনো পথ গ্রহণ করা নয়, বরং আকাবিরে উলামায়ে দেওবন্দের রেখে যাওয়া ইলমী ও ফিকরী মিরাছগুলো ধরে রাখতেই এ যাত্রা।</p>
+          <p>এই লক্ষ্য বাস্তবায়নে জামিয়াকে ভিন্নভাবে সাজাতে হয়েছে অনেক কিছু। শিক্ষা, প্রতিষ্ঠান, পরিচালনা অনেক ক্ষেত্রেই গ্রহণ করতে হয়েছে যুগান্তকারী সিদ্ধান্ত। সম্মুখীনও হতে হয়েছে বহু বাধা-বিপত্তির। কিন্তু জামিয়ার সামনে পথের মানচিত্র ছিলো স্পষ্ট। আকাবির ও আসলাফের পথচলার আলোকে জানা ছিলো যে, এটি একটি সঠিক পদক্ষেপ। তাই স্থির মনোবল নিয়ে এগিয়ে গিয়েছে সম্মুখে। সময়ের সাথে সাথে দুই দশকের মধ্যেই জামিয়া এখন সবার আস্থার পাত্র, শ্রদ্ধা ও ভালোবাসার জায়গা।</p>
+        </article>
+
+        <article class="content-card card" id="education">
+          <h3>শিক্ষা ব্যবস্থা</h3>
+          <p>প্রথমেই আসা যাক শিক্ষা ব্যবস্থার কথায়। যুগের ফেতনা ও বাতিলের মোকবেলা করতে, এবং নতুন প্রজন্মের আধুনিক শিক্ষিত মানুষের সামনে দ্বীনের বার্তা দৃঢ়তা ও আত্মবিশ্বাসের সঙ্গে তাদের বোধগম্য ভাষায় তুলে ধরতে এমন একদল আলেম গড়ে ওঠা প্রয়োজন যাদের উলুমে ইসলামিয়ার জ্ঞান থাকবে যেমন গভীর ও শেকড়স্পর্শী, তেমনি সময়ের গতিপ্রকৃতি সম্পর্কে তারা হবে সজাগ, সচেতন। অতীতের সঙ্গে যেমন থাকবে মজবুত সেতুবন্ধন, তেমনই বর্তমানের সঙ্গে থাকবে নিবিড় সংযোগ।</p>
+          <p>এ লক্ষ্য অর্জনের প্রথম ও প্রধান হাতিয়ার হলো নেসাবে তালীম ও শিক্ষা কারিকুলাম। একটি সময়োপযোগী বাস্তবমুখী শিক্ষা ব্যবস্থাই গড়ে তুলতে পারে সময়ের ব্যক্তি ও ব্যক্তিত্ব। তাই সূচনালগ্ন থেকেই জামিয়ার গুরুত্বের তালিকায় সবার শীর্ষে রয়েছে এ বিষয়। বরং, বলা যায়, জামিয়া প্রতিষ্ঠার অন্যতম একটি লক্ষ্য ছিলো নেসাব সংস্কার ও সময়োপযোগী সিলেবাসে পাঠদান।</p>
+          <p>এ উদ্দেশ্যে জামিয়া সম্পূর্ণ শিক্ষা কার্যক্রমকেই নতুন আঙ্গিকে ঢেলে সাজিয়েছে। মূলধারার কদীম দরসে নেযামী ধরে রাখার পাশাপাশি সময়ের সঙ্গে পরিবর্তনযোগ্য যেসব বিষয়গুলোতে পরিবর্তন আনা অপরিহার্য হয়ে পড়েছিলো তাতে, যথাসাধ্য, পরিবর্তন এনেছে। যেসব গুরুত্বপূর্ণ বিষয় অবহেলিত হয়ে আসছিলো তাকে যথাযথ গুরুত্ব দেওয়ার চেষ্টা করেছে। সঙ্গে নতুন যেসব বিষয় সংযোজন করার প্রয়োজন ছিলো তাও সংযোজন করেছে।</p>
+          <p>তবে শিক্ষা সংস্কার পরিকল্পনার একাংশই কেবল বাস্তব রূপ লাভ করেছে। বিভিন্ন সংকট ও পরিস্থিতির কারণে বড় একটি অংশ এখনও খসড়া আকারে রয়ে গেছে। তা সত্ত্বেও যতটুকু বাস্তবায়িত হয়েছে, তাতেই জামিয়া অনেক এগিয়ে গিয়েছে।</p>
+          <div class="highlight">
+            <p><strong>প্রাথমিক ও মাধ্যমিক শিক্ষা:</strong> জামিয়ার নেসাবভিত্তিক যত পরীক্ষা-নিরীক্ষা, এখন পর্যন্ত তার প্রধান বাস্তবায়নক্ষেত্র হচ্ছে প্রাথমিক ও মাধ্যমিক স্তর, যদিও সম্পূর্ণ দরসে নেযামীতেই প্রয়োজনীয় পরিবর্তন ও সংস্কারের ইচ্ছা ও পরিকল্পনাও রয়েছে।</p>
+          </div>
+          <p>যেহেতু এই দু'টি স্তরই হচ্ছে তালিবুল ইলমের পরবর্তী ইলমী ও দাওয়াতী জীবনের ভিত্তি, তাই এই স্তররের পাঠ্যপুস্তক নির্ধারণের ক্ষেত্রে জামিয়া সম্পূর্ণ স্বাধীনতা ও স্বাতন্ত্র্যের সঙ্গে চিন্তা করেছে। একজন ছাত্র দক্ষ ও সচেতন হয়ে গড়ে ওঠার জন্য যা প্রয়োজন সবকিছুর আয়োজন সম্পন্ন করেছে। এ কার্যক্রম যাতে বাধাগ্রস্ত না হয় সে জন্য শরহে বেকায়ার পূর্বে কওমী বোর্ড পরীক্ষাগুলোতেও অংশগ্রহণ করা থেকে বিরত রয়েছে। যার ফলে জামিয়ার প্রাথমিক ও মাধ্যমিক শিক্ষা অত্যন্ত উন্নত ও সময়োপযোগী।</p>
+          <p>পাঠ্যসূচির যেসব বিষয় সময়ের পরিবর্তনে তার গুরুত্ব ও আবেদন হারিয়ে ফেলেছে অথবা তা বর্তমানে গৌণ হয়ে পড়েছে সেসব বিষয়কে বাদ দেওয়া হয়েছে। সঙ্গে সঙ্গে তার কোনো গুরুত্ব বা প্রয়োজনীয়তা থাকলে তাও বিবেচনা করা হয়েছে।</p>
+        </article>
+
+        <article class="content-card card" id="fikr">
+          <h3>ফিকির ও আদর্শ</h3>
+          <p>জামিয়ার ফিকির ও আদর্শের কেন্দ্রবিন্দু হলো আকাবিরে উলামায়ে দেওবন্দের ইলমী, ফিকরী ও তারবিয়াতী উত্তরাধিকার সংরক্ষণ করা। নতুন কোনো বিচ্ছিন্ন পথ নির্মাণ নয়; বরং সময়ের বাস্তবতার মুখোমুখি দাঁড়িয়ে আসলাফের মিরাছকে কার্যকর ও জীবন্ত রাখাই এই পথচলার মূল স্পৃহা।</p>
+          <p>এই আদর্শে অতীতের সাথে মজবুত সম্পর্ক, বর্তমানের প্রতি সচেতন দৃষ্টি, সমাজ ও রাষ্ট্রের বাস্তব সমস্যার প্রতি দায়িত্বশীল মনোভাব এবং দ্বীনকে মানুষের সামনে প্রজ্ঞা ও প্রাসঙ্গিক ভাষায় উপস্থাপনের প্রত্যয় একসূত্রে গাঁথা।</p>
+        </article>
+
+        <article class="content-card card" id="teachers">
+          <h3>আসাতিযায়ে কেরাম</h3>
+          <p>জামিয়ার আসাতিযায়ে কেরাম এমন এক ইলমী ধারার প্রতিনিধিত্ব করেন, যা একই সঙ্গে ঐতিহ্যনিষ্ঠ, গবেষণামুখী এবং সময়-সচেতন। তাঁদের তত্ত্বাবধানেই নেসাব সংস্কার, পাঠ্যবিন্যাস, তারবিয়াত এবং শিক্ষার্থীদের মানসিক-ইলমী বিকাশের কার্যক্রম এগিয়ে চলছে।</p>
+          <p>আসাতিযায়ে কেরামের পূর্ণাঙ্গ তালিকা, জেলা ও মোবাইল নম্বরসহ বিস্তারিত তথ্য দেখতে আলাদা শিক্ষক-ডিরেক্টরি পেজ ব্যবহার করা যাবে।</p>
+          <p><a class="back-link" href="teachers-directory.html">শিক্ষক তালিকার পেজ খুলুন</a></p>
+        </article>
+
+        <article class="content-card card" id="ideal">
+          <h3>আদর্শ প্রতিষ্ঠান জামিয়া</h3>
+          <p>একটি আদর্শ দ্বীনি প্রতিষ্ঠান কেবল পাঠদান দ্বারা গড়ে ওঠে না; বরং সুস্পষ্ট লক্ষ্য, দৃঢ় পরিচালনা, সময়োপযোগী শিক্ষা-পরিকল্পনা, আখলাক ও তারবিয়াতমুখী পরিবেশ এবং যুগের প্রশ্নের জবাব দেওয়ার সক্ষমতার সমন্বয়ে গড়ে ওঠে। জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা সেই আদর্শকে বাস্তব রূপ দেওয়ার প্রয়াসে নিজেদের কার্যক্রমকে ধাপে ধাপে সুসংগঠিত করেছে।</p>
+        </article>
+
+        <article class="content-card card" id="twenty-years">
+          <h3>দুই দশক পেরিয়ে</h3>
+          <p>দুই দশকের পথচলায় জামিয়া ধীরে ধীরে মানুষের আস্থা, শ্রদ্ধা ও ভালোবাসার কেন্দ্র হয়ে উঠেছে। নানা বাধা-বিপত্তি, সীমাবদ্ধতা ও বাস্তব চ্যালেঞ্জের মধ্য দিয়েও প্রতিষ্ঠানটি তার লক্ষ্যচ্যুত হয়নি; বরং ক্রমে একটি সুপরিচিত ও গ্রহণযোগ্য ইসলামী শিক্ষাকেন্দ্র হিসেবে আত্মপ্রকাশ করেছে।</p>
+        </article>
+
+        <article class="content-card card" id="ending">
+          <h3>শেষ কথা</h3>
+          <p>জামিয়ার পথচলা মূলত একটি দীর্ঘমেয়াদি ইলমী ও ফিকরী মিশন। শিক্ষা-সংস্কার, সময়োপযোগী কারিকুলাম, আদর্শিক দৃঢ়তা এবং সমাজে কার্যকর ভূমিকা রাখার লক্ষ্য সামনে রেখে এ যাত্রা অব্যাহত রয়েছে।</p>
+          <p>আপনার দেওয়া লেখার পরবর্তী অংশ যুক্ত হলে এই পেজকে আরও সমৃদ্ধভাবে সম্প্রসারণ করা যাবে।</p>
+        </article>
+
+        <article class="note-card card">
+          <h3>নোট</h3>
+          <p>আপনার পাঠানো লেখার শেষাংশ “সঙ্গে সঙ্গে তার কোনো গুরুত্ব বা প্রয়োজনীয়তা থাকলে তাও বিবেচনা...” পর্যন্ত পাওয়া গেছে। পরবর্তী অংশ দিলে আমি একই file-এ ধারাবাহিকভাবে সেটিও যুক্ত করে দেব।</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-wrap">
+      <p>© আল ইনতিবাহ | জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা</p>
+      <p><a href="index.html">হোম পেজ</a></p>
+    </div>
+  </footer>
+</body>
+</html>
