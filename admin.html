@@ -79,6 +79,28 @@
       padding-top: 20px;
     }
 
+    .howto {
+      background: rgba(13, 59, 46, 0.06);
+      border: 1px dashed rgba(13, 59, 46, 0.24);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .howto h3 {
+      margin: 0 0 6px;
+      font-size: 1.02rem;
+      color: var(--primary);
+    }
+
+    .howto ol {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+    }
+
+    .howto li { margin: 2px 0; }
+
     .editor-grid {
       display: grid;
       gap: 12px;
@@ -173,7 +195,7 @@
   <div class="container">
     <section class="panel login-box" id="loginPanel">
       <h1>এডমিন লগইন</h1>
-      <p class="helper">এডমিন প্যানেলে ঢুকতে আপনার Firebase Auth ইমেইল ও পাসওয়ার্ড ব্যবহার করুন।</p>
+      <p class="helper">এডমিন প্যানেলে ঢুকতে আপনার অনুমোদিত ইমেইল ও পাসওয়ার্ড দিন।</p>
 
       <form id="loginForm">
         <div class="field">
@@ -195,7 +217,7 @@
       <div class="top-actions">
         <div>
           <h1>এডমিন প্যানেল</h1>
-          <p class="helper">লগইন করা এডমিন এখান থেকে নোটিশ যোগ/মুছতে পারবেন।</p>
+          <p class="helper">এখান থেকে খুব সহজে নোটিশ যোগ, সম্পাদনা ও মুছে ফেলতে পারবেন।</p>
         </div>
         <button class="btn-danger" type="button" id="logoutBtn">লগআউট</button>
       </div>
@@ -222,8 +244,19 @@
       <div class="notices" id="adminNoticeList"></div>
 
       <section class="editor-box">
-        <h2>ফাইল এডিটর</h2>
-        <p class="helper">index সহ যেকোনো HTML ফাইল লোড করে এডিট করুন। এরপর খসড়া সেভ, প্রিভিউ, বা ডাউনলোড করতে পারবেন।</p>
+        <h2>পাতা পরিবর্তন (সহজ মোড)</h2>
+        <p class="helper">কোডিং না জানলেও সমস্যা নেই—নিচের ধাপগুলো অনুসরণ করে লেখা বদলাতে পারবেন।</p>
+
+        <div class="howto">
+          <h3>কীভাবে করবেন</h3>
+          <ol>
+            <li>প্রথমে কোন পাতা বদলাবেন, সেটি <strong>ফাইল নির্বাচন</strong> থেকে নিন।</li>
+            <li><strong>ফাইল লোড</strong> চাপুন। নিচে পেজের লেখা দেখা যাবে।</li>
+            <li>প্রয়োজনমতো লেখা বদলে <strong>খসড়া সেভ</strong> করুন।</li>
+            <li><strong>প্রিভিউ</strong> দিয়ে দেখে নিন সব ঠিক আছে কি না।</li>
+            <li>শেষে <strong>ডাউনলোড</strong> করে ডেভেলপার/ওয়েব টিমকে দিন।</li>
+          </ol>
+        </div>
 
         <div class="editor-grid">
           <div class="field">
@@ -240,8 +273,8 @@
           </div>
 
           <div class="field">
-            <label for="fileEditor">ফাইল কনটেন্ট</label>
-            <textarea id="fileEditor" class="code-editor" spellcheck="false" placeholder="ফাইল লোড করলে কনটেন্ট এখানে দেখাবে..."></textarea>
+            <label for="fileEditor">পেজের লেখা (এখানে পরিবর্তন করুন)</label>
+            <textarea id="fileEditor" class="code-editor" spellcheck="false" placeholder="ফাইল লোড হলে এখানে লেখা দেখাবে। আপনি সরাসরি পরিবর্তন করতে পারবেন।"></textarea>
           </div>
           <p class="status" id="editorStatus"></p>
         </div>
@@ -357,7 +390,7 @@
       const savedDraft = localStorage.getItem(draftKey(fileName));
       if (savedDraft !== null) {
         setEditorContent(savedDraft);
-        updateEditorStatus(`${fileName} এর সেভ করা খসড়া লোড হয়েছে।`);
+        updateEditorStatus(`সফল: ${fileName} এর আগের খসড়া দেখানো হচ্ছে।`);
         return;
       }
 
@@ -366,9 +399,9 @@
         if (!response.ok) throw new Error("ফাইল লোড করা যায়নি");
         const content = await response.text();
         setEditorContent(content);
-        updateEditorStatus(`${fileName} ফাইল লোড হয়েছে।`);
+        updateEditorStatus(`সফল: ${fileName} খোলা হয়েছে। এখন লেখা পরিবর্তন করতে পারেন।`);
       } catch (_) {
-        updateEditorStatus(`${fileName} ফাইল লোড ব্যর্থ হয়েছে।`, true);
+        updateEditorStatus(`দুঃখিত, ${fileName} এখন খোলা যাচ্ছে না। আবার চেষ্টা করুন।`, true);
       }
     }
 
@@ -376,7 +409,7 @@
       const fileName = getSelectedFileName();
       if (!fileName) return;
       localStorage.setItem(draftKey(fileName), getEditorContent());
-      updateEditorStatus(`${fileName} এর খসড়া সেভ হয়েছে।`);
+      updateEditorStatus(`সফল: ${fileName} এর খসড়া সেভ হয়েছে।`);
     }
 
     function resetDraft() {
@@ -384,7 +417,7 @@
       if (!fileName) return;
       localStorage.removeItem(draftKey(fileName));
       loadFileContent();
-      updateEditorStatus(`${fileName} এর সেভ করা খসড়া বাতিল হয়েছে।`);
+      updateEditorStatus(`খসড়া বাতিল: ${fileName} আবার মূল অবস্থায় আনা হয়েছে।`);
     }
 
     function previewDraft() {
@@ -393,7 +426,7 @@
       const blob = new Blob([getEditorContent()], { type: "text/html" });
       const previewUrl = URL.createObjectURL(blob);
       window.open(previewUrl, "_blank", "noopener");
-      updateEditorStatus(`${fileName} এর প্রিভিউ নতুন ট্যাবে খোলা হয়েছে।`);
+      updateEditorStatus(`প্রিভিউ খোলা হয়েছে: নতুন ট্যাবে ${fileName} দেখতে পাবেন।`);
       setTimeout(() => URL.revokeObjectURL(previewUrl), 60000);
     }
 
@@ -409,7 +442,7 @@
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(downloadUrl);
-      updateEditorStatus(`${fileName} ডাউনলোড শুরু হয়েছে।`);
+      updateEditorStatus(`ডাউনলোড শুরু হয়েছে: ${fileName} ফাইলটি আপনার ডিভাইসে যাবে।`);
     }
 
     function render() {
