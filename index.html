@@ -190,6 +190,37 @@
       transform: translateY(-1px);
     }
 
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .nav-toggle {
+      border: 1px solid var(--border);
+      background: var(--surface-strong);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      background: var(--secondary-soft);
+    }
+
+    .site-header.nav-minimized .nav-menu {
+      display: none;
+    }
+
+    .site-header.nav-minimized .nav-wrap {
+      min-height: 62px;
+    }
+
     .hero {
       padding: 72px 0 48px;
     }
@@ -357,6 +388,37 @@
 
     .hero-meta strong {
       color: var(--primary-deep);
+    }
+
+    .notice-wrap {
+      display: grid;
+      gap: 18px;
+    }
+
+    .notice-card {
+      padding: 22px;
+    }
+
+    .notice-card h3 {
+      font-size: 1.22rem;
+      color: var(--primary-deep);
+      margin-bottom: 8px;
+    }
+
+    .notice-meta {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .notice-empty {
+      padding: 20px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.66);
     }
 
     .hero-panel {
@@ -773,6 +835,11 @@
         padding: 16px 0;
       }
 
+      .nav-controls {
+        width: 100%;
+        margin-left: 0;
+      }
+
       .nav-menu {
         justify-content: flex-start;
         gap: 8px;
@@ -815,6 +882,15 @@
       }
 
       .brand {
+        width: 100%;
+      }
+
+      .nav-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-toggle {
         width: 100%;
       }
 
@@ -892,13 +968,17 @@
         </div>
       </a>
 
-      <ul class="nav-menu">
-        <li><a href="our-jamia.html">আমাদের জামিয়া</a></li>
-        <li><a href="history-of-jamia.html">প্রতিষ্ঠার ইতিহাস</a></li>
-        <li><a href="nesab-analysis.html">নেসাব</a></li>
-        <li><a href="teachers-directory.html">শিক্ষকবৃন্দ</a></li>
-        <li><a href="taranaye-jamia.html">তারানায়ে জামিয়া</a></li>
-      </ul>
+      <div class="nav-controls">
+        <button class="nav-toggle" type="button" id="navToggle" aria-expanded="true">মেনু মিনিমাইজ</button>
+        <ul class="nav-menu" id="mainNavMenu">
+          <li><a href="our-jamia.html">আমাদের জামিয়া</a></li>
+          <li><a href="history-of-jamia.html">প্রতিষ্ঠার ইতিহাস</a></li>
+          <li><a href="nesab-analysis.html">নেসাব</a></li>
+          <li><a href="teachers-directory.html">শিক্ষকবৃন্দ</a></li>
+          <li><a href="taranaye-jamia.html">তারানায়ে জামিয়া</a></li>
+          <li><a href="#notice-board">নোটিশ</a></li>
+        </ul>
+      </div>
     </div>
   </header>
 
@@ -969,6 +1049,17 @@
             </ul>
           </aside>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="notice-board">
+      <div class="container">
+        <div class="section-title">
+          <div class="kicker">নোটিশ বোর্ড</div>
+          <h2>সর্বশেষ অফিসিয়াল নোটিশ</h2>
+          <p>এডমিন প্যানেল থেকে নতুন নোটিশ যোগ করলে এই সেকশনে স্বয়ংক্রিয়ভাবে দেখাবে।</p>
+        </div>
+        <div class="notice-wrap" id="noticeList"></div>
       </div>
     </section>
 
@@ -1243,5 +1334,76 @@
       <p>ঠিকানা: ২০২জি/১১, সড়ক নং-৬, মোহাম্মদী হাউজিং লিমিটেড, মোহাম্মদপুর, ঢাকা-১২০৭</p>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      const noticeStorageKey = "juid_notices";
+      const defaultNotices = [
+        {
+          title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
+          date: "2026-03-02",
+          message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
+        },
+        {
+          title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
+          date: "2026-04-20",
+          message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
+        }
+      ];
+
+      function getNotices() {
+        try {
+          const stored = localStorage.getItem(noticeStorageKey);
+          if (!stored) return defaultNotices;
+          const parsed = JSON.parse(stored);
+          return Array.isArray(parsed) ? parsed : defaultNotices;
+        } catch (error) {
+          return defaultNotices;
+        }
+      }
+
+      function renderNotices() {
+        const list = document.getElementById("noticeList");
+        if (!list) return;
+
+        const notices = getNotices();
+        if (!notices.length) {
+          list.innerHTML = '<div class="notice-empty">এখনও কোনো নোটিশ যুক্ত করা হয়নি।</div>';
+          return;
+        }
+
+        list.innerHTML = notices
+          .map((notice) => {
+            const safeTitle = notice.title || "নোটিশ";
+            const safeDate = notice.date || "তারিখ উল্লেখ নেই";
+            const safeMessage = notice.message || "";
+            return `
+              <article class="notice-card card">
+                <h3>${safeTitle}</h3>
+                <span class="notice-meta">তারিখ: ${safeDate}</span>
+                <p>${safeMessage}</p>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function setupNavMinimize() {
+        const header = document.querySelector(".site-header");
+        const toggle = document.getElementById("navToggle");
+        if (!header || !toggle) return;
+
+        toggle.addEventListener("click", function () {
+          header.classList.toggle("nav-minimized");
+          const minimized = header.classList.contains("nav-minimized");
+          toggle.textContent = minimized ? "মেনু দেখাও" : "মেনু মিনিমাইজ";
+          toggle.setAttribute("aria-expanded", String(!minimized));
+        });
+      }
+
+      renderNotices();
+      setupNavMinimize();
+    })();
+  </script>
 </body>
 </html>

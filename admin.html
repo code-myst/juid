@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>এডমিন প্যানেল | আল ইনতিবাহ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: "Hind Siliguri", sans-serif; background:#f7f4eb; color:#163127; }
+    .container { width:min(980px, calc(100% - 24px)); margin:28px auto 42px; display:grid; gap:16px; }
+    .card { background:#fff; border:1px solid rgba(13,59,46,.14); border-radius:14px; padding:18px; box-shadow:0 10px 30px rgba(8,36,28,.08); }
+    h1,h2 { margin:0 0 10px; color:#0d3b2e; }
+    .muted { margin:0 0 14px; color:#5f6f67; }
+    .field { display:grid; gap:6px; margin-bottom:12px; }
+    label { font-weight:700; }
+    input,textarea,select { width:100%; padding:10px 12px; font:inherit; border:1px solid rgba(13,59,46,.18); border-radius:10px; }
+    textarea { min-height:150px; resize:vertical; font-family:ui-monospace, monospace; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    button { border:0; border-radius:999px; padding:9px 14px; font:inherit; font-weight:700; cursor:pointer; }
+    .primary { background:#0d3b2e; color:#fff; }
+    .soft { background:rgba(13,59,46,.12); color:#0d3b2e; }
+    .danger { background:rgba(159,45,45,.14); color:#8a1f1f; }
+    .hidden { display:none; }
+    .notice { border:1px solid rgba(13,59,46,.12); border-radius:10px; padding:12px; margin-top:10px; }
+    .status { font-size:.92rem; color:#5f6f67; margin-top:8px; }
+    a.back { color:#0d3b2e; font-weight:700; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card" id="loginCard">
+      <h1>এডমিন লগইন</h1>
+      <p class="muted">Email + Password দিয়ে লগইন করলে এডমিন প্যানেল খুলবে।</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">ইমেইল</label>
+          <input id="email" type="email" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="password">পাসওয়ার্ড</label>
+          <input id="password" type="password" required autocomplete="current-password">
+        </div>
+        <div class="row">
+          <button class="primary" type="submit">লগইন</button>
+        </div>
+      </form>
+      <p class="status" id="authStatus">লগইন করা হয়নি।</p>
+      <a class="back" href="index.html">← হোম পেজে ফিরে যাও</a>
+    </section>
+
+    <section class="card hidden" id="panelCard">
+      <div class="row" style="justify-content:space-between;align-items:center;">
+        <h2 style="margin:0;">এডমিন কন্ট্রোল</h2>
+        <button class="danger" id="logoutBtn" type="button">লগআউট</button>
+      </div>
+
+      <div class="card" style="margin-top:14px; box-shadow:none;">
+        <h2>নোটিশ ম্যানেজমেন্ট</h2>
+        <form id="noticeForm">
+          <div class="field">
+            <label for="noticeTitle">শিরোনাম</label>
+            <input id="noticeTitle" type="text" required>
+          </div>
+          <div class="field">
+            <label for="noticeDate">তারিখ</label>
+            <input id="noticeDate" type="date" required>
+          </div>
+          <div class="field">
+            <label for="noticeMessage">মেসেজ</label>
+            <textarea id="noticeMessage" required></textarea>
+          </div>
+          <div class="row">
+            <button class="primary" type="submit">নোটিশ যোগ করো</button>
+            <button class="soft" type="button" id="resetNotices">ডিফল্ট নোটিশ</button>
+          </div>
+        </form>
+        <div id="noticeList"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px; box-shadow:none;">
+        <h2>ফাইল এডিটর</h2>
+        <p class="muted">ফাইল লোড করে এডিট করুন, draft সেভ করুন, তারপর edited file ডাউনলোড করুন।</p>
+        <div class="field">
+          <label for="filePicker">ফাইল</label>
+          <select id="filePicker"></select>
+        </div>
+        <div class="row">
+          <button class="soft" type="button" id="loadFileBtn">ফাইল লোড</button>
+          <button class="soft" type="button" id="loadDraftBtn">ড্রাফট লোড</button>
+        </div>
+        <div class="field" style="margin-top:10px;">
+          <label for="fileEditor">কনটেন্ট</label>
+          <textarea id="fileEditor" spellcheck="false"></textarea>
+        </div>
+        <div class="row">
+          <button class="primary" type="button" id="saveDraftBtn">ড্রাফট সেভ</button>
+          <button class="soft" type="button" id="downloadBtn">ডাউনলোড</button>
+        </div>
+        <p class="status" id="editorStatus">এখনও কোনো ফাইল লোড হয়নি।</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    (function () {
+      initJuidFirebase();
+      const auth = firebase.auth();
+
+      const NOTICE_KEY = "juid_notices";
+      const defaults = [
+        { title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি", date: "2026-03-02", message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে।" },
+        { title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ", date: "2026-04-20", message: "ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ পর্যন্ত জমা নেওয়া হবে।" }
+      ];
+
+      const editableFiles = ["index.html", "our-jamia.html", "history-of-jamia.html", "nesab-analysis.html", "teachers-directory.html", "taranaye-jamia.html"];
+
+      const loginCard = document.getElementById("loginCard");
+      const panelCard = document.getElementById("panelCard");
+      const authStatus = document.getElementById("authStatus");
+      const noticeList = document.getElementById("noticeList");
+      const filePicker = document.getElementById("filePicker");
+      const editorStatus = document.getElementById("editorStatus");
+      const fileEditor = document.getElementById("fileEditor");
+
+      editableFiles.forEach((file) => {
+        const opt = document.createElement("option");
+        opt.value = file;
+        opt.textContent = file;
+        filePicker.appendChild(opt);
+      });
+
+      function getNotices() {
+        try {
+          const raw = localStorage.getItem(NOTICE_KEY);
+          if (!raw) return [...defaults];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [...defaults];
+        } catch (_) {
+          return [...defaults];
+        }
+      }
+
+      function saveNotices(notices) { localStorage.setItem(NOTICE_KEY, JSON.stringify(notices)); }
+
+      function renderNotices() {
+        const notices = getNotices();
+        noticeList.innerHTML = notices.map((n, i) => `
+          <article class="notice">
+            <strong>${n.title}</strong><br>
+            <small>${n.date}</small>
+            <p>${n.message}</p>
+            <button class="danger" data-delete="${i}" type="button">মুছে ফেলো</button>
+          </article>
+        `).join("") || "<p class='muted'>কোনো নোটিশ নেই।</p>";
+      }
+
+      document.getElementById("noticeForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("noticeTitle").value.trim();
+        const date = document.getElementById("noticeDate").value;
+        const message = document.getElementById("noticeMessage").value.trim();
+        if (!title || !date || !message) return;
+        const notices = getNotices();
+        notices.unshift({ title, date, message });
+        saveNotices(notices);
+        e.target.reset();
+        renderNotices();
+      });
+
+      noticeList.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-delete]");
+        if (!btn) return;
+        const idx = Number(btn.dataset.delete);
+        const notices = getNotices();
+        notices.splice(idx, 1);
+        saveNotices(notices);
+        renderNotices();
+      });
+
+      document.getElementById("resetNotices").addEventListener("click", () => {
+        saveNotices([...defaults]);
+        renderNotices();
+      });
+
+      function draftKey(file) { return `juid_draft_${file}`; }
+
+      document.getElementById("loadFileBtn").addEventListener("click", async () => {
+        const file = filePicker.value;
+        try {
+          const res = await fetch(file, { cache: "no-store" });
+          if (!res.ok) throw new Error("load failed");
+          fileEditor.value = await res.text();
+          editorStatus.textContent = `${file} লোড হয়েছে।`;
+        } catch (_) {
+          editorStatus.textContent = `${file} লোড করা যায়নি।`;
+        }
+      });
+
+      document.getElementById("loadDraftBtn").addEventListener("click", () => {
+        const file = filePicker.value;
+        const draft = localStorage.getItem(draftKey(file));
+        if (!draft) {
+          editorStatus.textContent = `${file} এর কোনো draft নেই।`;
+          return;
+        }
+        fileEditor.value = draft;
+        editorStatus.textContent = `${file} draft লোড হয়েছে।`;
+      });
+
+      document.getElementById("saveDraftBtn").addEventListener("click", () => {
+        const file = filePicker.value;
+        localStorage.setItem(draftKey(file), fileEditor.value);
+        editorStatus.textContent = `${file} draft সেভ হয়েছে।`;
+      });
+
+      document.getElementById("downloadBtn").addEventListener("click", () => {
+        const file = filePicker.value;
+        const blob = new Blob([fileEditor.value], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        editorStatus.textContent = `${file} ডাউনলোড হয়েছে।`;
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+        } catch (err) {
+          authStatus.textContent = `লগইন ব্যর্থ: ${err.message}`;
+        }
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", async () => { await auth.signOut(); });
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          loginCard.classList.add("hidden");
+          panelCard.classList.remove("hidden");
+          authStatus.textContent = "লগইন সফল।";
+          renderNotices();
+        } else {
+          panelCard.classList.add("hidden");
+          loginCard.classList.remove("hidden");
+          authStatus.textContent = "লগইন করা হয়নি।";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
