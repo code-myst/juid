@@ -73,6 +73,34 @@
 
     textarea { min-height: 120px; resize: vertical; }
 
+    .editor-box {
+      margin-top: 26px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .editor-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .code-editor {
+      min-height: 340px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
     .actions,
     .top-actions {
       display: flex;
@@ -192,6 +220,32 @@
       </form>
 
       <div class="notices" id="adminNoticeList"></div>
+
+      <section class="editor-box">
+        <h2>ফাইল এডিটর</h2>
+        <p class="helper">index সহ যেকোনো HTML ফাইল লোড করে এডিট করুন। এরপর খসড়া সেভ, প্রিভিউ, বা ডাউনলোড করতে পারবেন।</p>
+
+        <div class="editor-grid">
+          <div class="field">
+            <label for="filePicker">ফাইল নির্বাচন</label>
+            <select id="filePicker"></select>
+          </div>
+
+          <div class="actions">
+            <button class="btn-secondary" id="loadFileBtn" type="button">ফাইল লোড</button>
+            <button class="btn-primary" id="saveDraftBtn" type="button">খসড়া সেভ</button>
+            <button class="btn-secondary" id="previewFileBtn" type="button">প্রিভিউ</button>
+            <button class="btn-secondary" id="downloadFileBtn" type="button">ডাউনলোড</button>
+            <button class="btn-danger" id="resetDraftBtn" type="button">খসড়া বাতিল</button>
+          </div>
+
+          <div class="field">
+            <label for="fileEditor">ফাইল কনটেন্ট</label>
+            <textarea id="fileEditor" class="code-editor" spellcheck="false" placeholder="ফাইল লোড করলে কনটেন্ট এখানে দেখাবে..."></textarea>
+          </div>
+          <p class="status" id="editorStatus"></p>
+        </div>
+      </section>
       <a class="top-link" href="index.html">← হোম পেজে ফিরে যাও</a>
     </section>
   </div>
@@ -235,6 +289,24 @@
 
     const form = document.getElementById("noticeForm");
     const list = document.getElementById("adminNoticeList");
+    const filePicker = document.getElementById("filePicker");
+    const loadFileBtn = document.getElementById("loadFileBtn");
+    const saveDraftBtn = document.getElementById("saveDraftBtn");
+    const previewFileBtn = document.getElementById("previewFileBtn");
+    const downloadFileBtn = document.getElementById("downloadFileBtn");
+    const resetDraftBtn = document.getElementById("resetDraftBtn");
+    const fileEditor = document.getElementById("fileEditor");
+    const editorStatus = document.getElementById("editorStatus");
+
+    const editableFiles = [
+      "index.html",
+      "history-of-jamia.html",
+      "our-jamia.html",
+      "nesab-analysis.html",
+      "taranaye-jamia.html",
+      "teachers-directory.html",
+      "admin.html"
+    ];
 
     function getNotices() {
       try {
@@ -249,6 +321,95 @@
 
     function saveNotices(notices) {
       localStorage.setItem(key, JSON.stringify(notices));
+    }
+
+    function draftKey(fileName) {
+      return `juid_file_draft_${fileName}`;
+    }
+
+    function updateEditorStatus(message, isError = false) {
+      editorStatus.textContent = message;
+      editorStatus.style.color = isError ? "var(--danger)" : "var(--primary)";
+    }
+
+    function getSelectedFileName() {
+      return filePicker.value;
+    }
+
+    function getEditorContent() {
+      return fileEditor.value;
+    }
+
+    function setEditorContent(content) {
+      fileEditor.value = content;
+    }
+
+    function loadPickerOptions() {
+      filePicker.innerHTML = editableFiles
+        .map((file) => `<option value="${file}">${file}</option>`)
+        .join("");
+    }
+
+    async function loadFileContent() {
+      const fileName = getSelectedFileName();
+      if (!fileName) return;
+
+      const savedDraft = localStorage.getItem(draftKey(fileName));
+      if (savedDraft !== null) {
+        setEditorContent(savedDraft);
+        updateEditorStatus(`${fileName} এর সেভ করা খসড়া লোড হয়েছে।`);
+        return;
+      }
+
+      try {
+        const response = await fetch(fileName, { cache: "no-store" });
+        if (!response.ok) throw new Error("ফাইল লোড করা যায়নি");
+        const content = await response.text();
+        setEditorContent(content);
+        updateEditorStatus(`${fileName} ফাইল লোড হয়েছে।`);
+      } catch (_) {
+        updateEditorStatus(`${fileName} ফাইল লোড ব্যর্থ হয়েছে।`, true);
+      }
+    }
+
+    function saveDraft() {
+      const fileName = getSelectedFileName();
+      if (!fileName) return;
+      localStorage.setItem(draftKey(fileName), getEditorContent());
+      updateEditorStatus(`${fileName} এর খসড়া সেভ হয়েছে।`);
+    }
+
+    function resetDraft() {
+      const fileName = getSelectedFileName();
+      if (!fileName) return;
+      localStorage.removeItem(draftKey(fileName));
+      loadFileContent();
+      updateEditorStatus(`${fileName} এর সেভ করা খসড়া বাতিল হয়েছে।`);
+    }
+
+    function previewDraft() {
+      const fileName = getSelectedFileName();
+      if (!fileName) return;
+      const blob = new Blob([getEditorContent()], { type: "text/html" });
+      const previewUrl = URL.createObjectURL(blob);
+      window.open(previewUrl, "_blank", "noopener");
+      updateEditorStatus(`${fileName} এর প্রিভিউ নতুন ট্যাবে খোলা হয়েছে।`);
+      setTimeout(() => URL.revokeObjectURL(previewUrl), 60000);
+    }
+
+    function downloadDraft() {
+      const fileName = getSelectedFileName();
+      if (!fileName) return;
+      const blob = new Blob([getEditorContent()], { type: "text/html" });
+      const downloadUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = downloadUrl;
+      anchor.download = fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(downloadUrl);
+      updateEditorStatus(`${fileName} ডাউনলোড শুরু হয়েছে।`);
     }
 
     function render() {
@@ -328,6 +489,16 @@
       saveNotices([...defaults]);
       render();
     });
+
+    loadPickerOptions();
+    loadFileContent();
+
+    filePicker.addEventListener("change", loadFileContent);
+    loadFileBtn.addEventListener("click", loadFileContent);
+    saveDraftBtn.addEventListener("click", saveDraft);
+    previewFileBtn.addEventListener("click", previewDraft);
+    downloadFileBtn.addEventListener("click", downloadDraft);
+    resetDraftBtn.addEventListener("click", resetDraft);
 
     onAuthStateChanged(auth, (user) => {
       togglePanels(Boolean(user));
