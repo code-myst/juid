@@ -763,6 +763,10 @@
         padding: 72px 0;
       }
 
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
       .nav-wrap {
         flex-direction: column;
         align-items: flex-start;
@@ -771,10 +775,20 @@
 
       .nav-menu {
         justify-content: flex-start;
+        gap: 8px;
+      }
+
+      .nav-menu a {
+        padding: 8px 12px;
+        font-size: 0.93rem;
       }
 
       .hero {
         padding-top: 42px;
+      }
+
+      .hero-media {
+        min-height: 380px;
       }
 
       .hero-points,
@@ -792,6 +806,75 @@
       .anthem-card,
       .cta-card {
         padding: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .section {
+        padding: 60px 0;
+      }
+
+      .brand {
+        width: 100%;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+      }
+
+      .brand-text h1 {
+        font-size: 1rem;
+      }
+
+      .brand-text p {
+        font-size: 0.84rem;
+      }
+
+      .hero-copy h2 {
+        font-size: clamp(1.85rem, 9vw, 2.4rem);
+        margin-bottom: 14px;
+      }
+
+      .hero-copy p {
+        font-size: 0.98rem;
+        margin-bottom: 20px;
+      }
+
+      .quick-links {
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+
+      .quick-link {
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+        min-height: 44px;
+        font-size: 0.92rem;
+      }
+
+      .hero-media {
+        min-height: 300px;
+      }
+
+      .hero-panel h3 {
+        font-size: 1.5rem;
+      }
+
+      .hero-point,
+      .hero-meta .meta-item,
+      .hero-list li {
+        padding: 14px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .cta-card h2 {
+        font-size: clamp(1.6rem, 8vw, 2rem);
       }
     }
   </style>
