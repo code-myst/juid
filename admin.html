@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>এডমিন প্যানেল | আল ইনতিবাহ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d3b2e;
+      --secondary: #b78a2f;
+      --bg: #f7f4eb;
+      --surface: #ffffff;
+      --border: rgba(13, 59, 46, 0.16);
+      --text: #163127;
+      --muted: #5f6f67;
+      --danger: #9f2d2d;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Hind Siliguri", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      width: min(920px, calc(100% - 24px));
+      margin: 32px auto 52px;
+    }
+
+    .panel,
+    .notice-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 14px 36px rgba(8, 36, 28, 0.09);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--primary);
+    }
+
+    p.helper {
+      margin: 0 0 20px;
+      color: var(--muted);
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    label { font-weight: 700; }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fff;
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    button, .link-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: rgba(13, 59, 46, 0.12); color: var(--primary); }
+    .btn-danger { background: rgba(159, 45, 45, 0.12); color: var(--danger); }
+
+    .notices {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .notice-item h3 {
+      margin: 0 0 6px;
+      color: var(--primary);
+    }
+
+    .meta {
+      font-size: 0.92rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <h1>এডমিন প্যানেল</h1>
+      <p class="helper">এখান থেকে নোটিশ যোগ/মুছলে তা হোম পেজের নোটিশ বোর্ডে দেখাবে।</p>
+
+      <form id="noticeForm">
+        <div class="field">
+          <label for="noticeTitle">নোটিশ শিরোনাম</label>
+          <input id="noticeTitle" type="text" required>
+        </div>
+        <div class="field">
+          <label for="noticeDate">তারিখ</label>
+          <input id="noticeDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="noticeMessage">বিস্তারিত</label>
+          <textarea id="noticeMessage" required></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" type="submit">নোটিশ যোগ করো</button>
+          <button class="btn-secondary" type="button" id="resetNotices">ডিফল্টে ফেরত</button>
+        </div>
+      </form>
+
+      <div class="notices" id="adminNoticeList"></div>
+      <a class="top-link" href="index.html">← হোম পেজে ফিরে যাও</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const key = "juid_notices";
+      const defaults = [
+        {
+          title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
+          date: "2026-03-02",
+          message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
+        },
+        {
+          title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
+          date: "2026-04-20",
+          message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
+        }
+      ];
+
+      const form = document.getElementById("noticeForm");
+      const list = document.getElementById("adminNoticeList");
+
+      function getNotices() {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return [...defaults];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [...defaults];
+        } catch (_) {
+          return [...defaults];
+        }
+      }
+
+      function saveNotices(notices) {
+        localStorage.setItem(key, JSON.stringify(notices));
+      }
+
+      function render() {
+        const notices = getNotices();
+
+        if (!notices.length) {
+          list.innerHTML = "<div class='notice-item'>কোনো নোটিশ পাওয়া যায়নি।</div>";
+          return;
+        }
+
+        list.innerHTML = notices
+          .map((notice, index) => `
+            <article class="notice-item">
+              <h3>${notice.title}</h3>
+              <span class="meta">তারিখ: ${notice.date}</span>
+              <p>${notice.message}</p>
+              <button type="button" class="btn-danger" data-index="${index}">মুছে ফেলো</button>
+            </article>
+          `)
+          .join("");
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const title = document.getElementById("noticeTitle").value.trim();
+        const date = document.getElementById("noticeDate").value;
+        const message = document.getElementById("noticeMessage").value.trim();
+        if (!title || !date || !message) return;
+
+        const notices = getNotices();
+        notices.unshift({ title, date, message });
+        saveNotices(notices);
+        form.reset();
+        render();
+      });
+
+      list.addEventListener("click", function (event) {
+        const btn = event.target.closest("button[data-index]");
+        if (!btn) return;
+
+        const notices = getNotices();
+        const index = Number(btn.dataset.index);
+        if (Number.isNaN(index)) return;
+
+        notices.splice(index, 1);
+        saveNotices(notices);
+        render();
+      });
+
+      document.getElementById("resetNotices").addEventListener("click", function () {
+        saveNotices([...defaults]);
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
