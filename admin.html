@@ -73,11 +73,18 @@
 
     textarea { min-height: 120px; resize: vertical; }
 
-    .actions {
+    .actions,
+    .top-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 8px;
+    }
+
+    .top-actions {
+      margin-bottom: 14px;
+      justify-content: space-between;
+      align-items: center;
     }
 
     button, .link-btn {
@@ -119,13 +126,94 @@
       font-weight: 700;
       text-decoration: none;
     }
+
+    .hidden { display: none; }
+
+    .status {
+      margin: 6px 0 0;
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .login-box {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .editor-panel {
+      margin-top: 18px;
+      border-top: 1px dashed var(--border);
+      padding-top: 18px;
+    }
+
+    .editor-toolbar {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .editor-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    #fileEditor {
+      min-height: 320px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .hint {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="panel">
-      <h1>এডমিন প্যানেল</h1>
-      <p class="helper">এখান থেকে নোটিশ যোগ/মুছলে তা হোম পেজের নোটিশ বোর্ডে দেখাবে।</p>
+    <section class="panel login-box" id="loginPanel">
+      <h1>এডমিন লগইন</h1>
+      <p class="helper">এডমিন প্যানেলে ঢুকতে আপনার Firebase Auth ইমেইল ও পাসওয়ার্ড ব্যবহার করুন।</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">ইমেইল</label>
+          <input id="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">পাসওয়ার্ড</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" type="submit">লগইন</button>
+        </div>
+        <p class="status" id="loginStatus"></p>
+      </form>
+    </section>
+
+    <section class="panel hidden" id="adminPanel">
+      <div class="top-actions">
+        <div>
+          <h1>এডমিন প্যানেল</h1>
+          <p class="helper">লগইন করা এডমিন এখান থেকে নোটিশ যোগ/মুছতে পারবেন।</p>
+        </div>
+        <button class="btn-danger" type="button" id="logoutBtn">লগআউট</button>
+      </div>
 
       <form id="noticeForm">
         <div class="field">
@@ -147,99 +235,284 @@
       </form>
 
       <div class="notices" id="adminNoticeList"></div>
+
+      <section class="editor-panel">
+        <h2>ফাইল এডিটর</h2>
+        <p class="hint">এখান থেকে <strong>index.html</strong> সহ অন্য ফাইল এডিট করে ব্রাউজারে সেভ রাখা যাবে এবং ডাউনলোড করেও নিতে পারবেন।</p>
+
+        <div class="editor-toolbar">
+          <div class="field" style="margin-bottom: 0;">
+            <label for="filePicker">ফাইল নির্বাচন করুন</label>
+            <select id="filePicker">
+              <option value="index.html">index.html</option>
+              <option value="our-jamia.html">our-jamia.html</option>
+              <option value="history-of-jamia.html">history-of-jamia.html</option>
+              <option value="nesab-analysis.html">nesab-analysis.html</option>
+              <option value="teachers-directory.html">teachers-directory.html</option>
+              <option value="taranaye-jamia.html">taranaye-jamia.html</option>
+              <option value="admin.html">admin.html</option>
+            </select>
+          </div>
+          <button class="btn-secondary" type="button" id="loadFileBtn">ফাইল লোড</button>
+        </div>
+
+        <div class="editor-actions">
+          <button class="btn-primary" type="button" id="saveFileBtn">ব্রাউজারে সেভ</button>
+          <button class="btn-secondary" type="button" id="downloadFileBtn">ফাইল ডাউনলোড</button>
+          <button class="btn-danger" type="button" id="resetFileBtn">ফাইল রিসেট</button>
+        </div>
+
+        <div class="field" style="margin-bottom: 8px;">
+          <label for="fileEditor">HTML কনটেন্ট</label>
+          <textarea id="fileEditor" spellcheck="false"></textarea>
+        </div>
+        <p class="status" id="fileEditorStatus"></p>
+      </section>
       <a class="top-link" href="index.html">← হোম পেজে ফিরে যাও</a>
-    </div>
+    </section>
   </div>
 
-  <script>
-    (function () {
-      const key = "juid_notices";
-      const defaults = [
-        {
-          title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
-          date: "2026-03-02",
-          message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
-        },
-        {
-          title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
-          date: "2026-04-20",
-          message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
-        }
-      ];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-      const form = document.getElementById("noticeForm");
-      const list = document.getElementById("adminNoticeList");
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxJSBLbuunfTF7gbkNL2g8-fNXdsIejFI",
+      authDomain: "jamiatululoomilislamiadhaka.firebaseapp.com",
+      projectId: "jamiatululoomilislamiadhaka",
+      storageBucket: "jamiatululoomilislamiadhaka.firebasestorage.app",
+      messagingSenderId: "172395531641",
+      appId: "1:172395531641:web:27e451c2700a9f3debb3a8",
+      measurementId: "G-YDG45LK4C6"
+    };
 
-      function getNotices() {
-        try {
-          const raw = localStorage.getItem(key);
-          if (!raw) return [...defaults];
-          const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed : [...defaults];
-        } catch (_) {
-          return [...defaults];
-        }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const key = "juid_notices";
+    const defaults = [
+      {
+        title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
+        date: "2026-03-02",
+        message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
+      },
+      {
+        title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
+        date: "2026-04-20",
+        message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
+      }
+    ];
+
+    const loginPanel = document.getElementById("loginPanel");
+    const adminPanel = document.getElementById("adminPanel");
+    const loginForm = document.getElementById("loginForm");
+    const loginStatus = document.getElementById("loginStatus");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const form = document.getElementById("noticeForm");
+    const list = document.getElementById("adminNoticeList");
+    const filePicker = document.getElementById("filePicker");
+    const loadFileBtn = document.getElementById("loadFileBtn");
+    const saveFileBtn = document.getElementById("saveFileBtn");
+    const resetFileBtn = document.getElementById("resetFileBtn");
+    const downloadFileBtn = document.getElementById("downloadFileBtn");
+    const fileEditor = document.getElementById("fileEditor");
+    const fileEditorStatus = document.getElementById("fileEditorStatus");
+    const fileEditStorageKey = "juid_file_edits";
+
+    function getNotices() {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [...defaults];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...defaults];
+      } catch (_) {
+        return [...defaults];
+      }
+    }
+
+    function saveNotices(notices) {
+      localStorage.setItem(key, JSON.stringify(notices));
+    }
+
+    function getStoredFiles() {
+      try {
+        const raw = localStorage.getItem(fileEditStorageKey);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveStoredFiles(fileMap) {
+      localStorage.setItem(fileEditStorageKey, JSON.stringify(fileMap));
+    }
+
+    async function loadSelectedFile() {
+      const fileName = filePicker.value;
+      const storedFiles = getStoredFiles();
+
+      if (storedFiles[fileName]) {
+        fileEditor.value = storedFiles[fileName];
+        fileEditorStatus.style.color = "var(--secondary)";
+        fileEditorStatus.textContent = `${fileName} এর ব্রাউজার-সেভ ভার্সন লোড হয়েছে।`;
+        return;
       }
 
-      function saveNotices(notices) {
-        localStorage.setItem(key, JSON.stringify(notices));
+      try {
+        const response = await fetch(fileName, { cache: "no-store" });
+        if (!response.ok) throw new Error("fetch_failed");
+        fileEditor.value = await response.text();
+        fileEditorStatus.style.color = "var(--primary)";
+        fileEditorStatus.textContent = `${fileName} সার্ভার ভার্সন লোড হয়েছে।`;
+      } catch (_) {
+        fileEditorStatus.style.color = "var(--danger)";
+        fileEditorStatus.textContent = "ফাইল লোড করা যায়নি। ফাইল পাথ/হোস্টিং সেটআপ যাচাই করুন।";
+      }
+    }
+
+    function render() {
+      const notices = getNotices();
+
+      if (!notices.length) {
+        list.innerHTML = "<div class='notice-item'>কোনো নোটিশ পাওয়া যায়নি।</div>";
+        return;
       }
 
-      function render() {
-        const notices = getNotices();
+      list.innerHTML = notices
+        .map((notice, index) => `
+          <article class="notice-item">
+            <h3>${notice.title}</h3>
+            <span class="meta">তারিখ: ${notice.date}</span>
+            <p>${notice.message}</p>
+            <button type="button" class="btn-danger" data-index="${index}">মুছে ফেলো</button>
+          </article>
+        `)
+        .join("");
+    }
 
-        if (!notices.length) {
-          list.innerHTML = "<div class='notice-item'>কোনো নোটিশ পাওয়া যায়নি।</div>";
-          return;
-        }
+    function togglePanels(isLoggedIn) {
+      loginPanel.classList.toggle("hidden", isLoggedIn);
+      adminPanel.classList.toggle("hidden", !isLoggedIn);
+      if (isLoggedIn) render();
+    }
 
-        list.innerHTML = notices
-          .map((notice, index) => `
-            <article class="notice-item">
-              <h3>${notice.title}</h3>
-              <span class="meta">তারিখ: ${notice.date}</span>
-              <p>${notice.message}</p>
-              <button type="button" class="btn-danger" data-index="${index}">মুছে ফেলো</button>
-            </article>
-          `)
-          .join("");
+    loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      loginStatus.textContent = "";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginForm.reset();
+      } catch (error) {
+        loginStatus.textContent = "লগইন ব্যর্থ। ইমেইল/পাসওয়ার্ড সঠিক কিনা যাচাই করুন।";
       }
+    });
 
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
+    logoutBtn.addEventListener("click", async function () {
+      await signOut(auth);
+    });
 
-        const title = document.getElementById("noticeTitle").value.trim();
-        const date = document.getElementById("noticeDate").value;
-        const message = document.getElementById("noticeMessage").value.trim();
-        if (!title || !date || !message) return;
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-        const notices = getNotices();
-        notices.unshift({ title, date, message });
-        saveNotices(notices);
-        form.reset();
-        render();
-      });
+      const title = document.getElementById("noticeTitle").value.trim();
+      const date = document.getElementById("noticeDate").value;
+      const message = document.getElementById("noticeMessage").value.trim();
+      if (!title || !date || !message) return;
 
-      list.addEventListener("click", function (event) {
-        const btn = event.target.closest("button[data-index]");
-        if (!btn) return;
-
-        const notices = getNotices();
-        const index = Number(btn.dataset.index);
-        if (Number.isNaN(index)) return;
-
-        notices.splice(index, 1);
-        saveNotices(notices);
-        render();
-      });
-
-      document.getElementById("resetNotices").addEventListener("click", function () {
-        saveNotices([...defaults]);
-        render();
-      });
-
+      const notices = getNotices();
+      notices.unshift({ title, date, message });
+      saveNotices(notices);
+      form.reset();
       render();
-    })();
+    });
+
+    list.addEventListener("click", function (event) {
+      const btn = event.target.closest("button[data-index]");
+      if (!btn) return;
+
+      const notices = getNotices();
+      const index = Number(btn.dataset.index);
+      if (Number.isNaN(index)) return;
+
+      notices.splice(index, 1);
+      saveNotices(notices);
+      render();
+    });
+
+    document.getElementById("resetNotices").addEventListener("click", function () {
+      saveNotices([...defaults]);
+      render();
+    });
+
+    loadFileBtn.addEventListener("click", function () {
+      loadSelectedFile();
+    });
+
+    filePicker.addEventListener("change", function () {
+      loadSelectedFile();
+    });
+
+    saveFileBtn.addEventListener("click", function () {
+      const fileName = filePicker.value;
+      const content = fileEditor.value;
+      if (!content.trim()) {
+        fileEditorStatus.style.color = "var(--danger)";
+        fileEditorStatus.textContent = "খালি কনটেন্ট সেভ করা যাবে না।";
+        return;
+      }
+
+      const storedFiles = getStoredFiles();
+      storedFiles[fileName] = content;
+      saveStoredFiles(storedFiles);
+      fileEditorStatus.style.color = "var(--primary)";
+      fileEditorStatus.textContent = `${fileName} ব্রাউজারে সেভ হয়েছে।`;
+    });
+
+    resetFileBtn.addEventListener("click", async function () {
+      const fileName = filePicker.value;
+      const storedFiles = getStoredFiles();
+      delete storedFiles[fileName];
+      saveStoredFiles(storedFiles);
+      await loadSelectedFile();
+      fileEditorStatus.style.color = "var(--secondary)";
+      fileEditorStatus.textContent = `${fileName} ব্রাউজার-সেভ ভার্সন মুছে ডিফল্ট ভার্সন লোড হয়েছে।`;
+    });
+
+    downloadFileBtn.addEventListener("click", function () {
+      const fileName = filePicker.value;
+      const content = fileEditor.value;
+      if (!content.trim()) {
+        fileEditorStatus.style.color = "var(--danger)";
+        fileEditorStatus.textContent = "ডাউনলোড করার মতো কনটেন্ট নেই।";
+        return;
+      }
+
+      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      fileEditorStatus.style.color = "var(--primary)";
+      fileEditorStatus.textContent = `${fileName} ডাউনলোড শুরু হয়েছে।`;
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      togglePanels(Boolean(user));
+      if (!user) loginStatus.textContent = "";
+    });
+
+    loadSelectedFile();
   </script>
 </body>
 </html>
