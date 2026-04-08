@@ -73,11 +73,18 @@
 
     textarea { min-height: 120px; resize: vertical; }
 
-    .actions {
+    .actions,
+    .top-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 8px;
+    }
+
+    .top-actions {
+      margin-bottom: 14px;
+      justify-content: space-between;
+      align-items: center;
     }
 
     button, .link-btn {
@@ -119,13 +126,51 @@
       font-weight: 700;
       text-decoration: none;
     }
+
+    .hidden { display: none; }
+
+    .status {
+      margin: 6px 0 0;
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .login-box {
+      max-width: 480px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="panel">
-      <h1>এডমিন প্যানেল</h1>
-      <p class="helper">এখান থেকে নোটিশ যোগ/মুছলে তা হোম পেজের নোটিশ বোর্ডে দেখাবে।</p>
+    <section class="panel login-box" id="loginPanel">
+      <h1>এডমিন লগইন</h1>
+      <p class="helper">এডমিন প্যানেলে ঢুকতে আপনার Firebase Auth ইমেইল ও পাসওয়ার্ড ব্যবহার করুন।</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">ইমেইল</label>
+          <input id="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">পাসওয়ার্ড</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" type="submit">লগইন</button>
+        </div>
+        <p class="status" id="loginStatus"></p>
+      </form>
+    </section>
+
+    <section class="panel hidden" id="adminPanel">
+      <div class="top-actions">
+        <div>
+          <h1>এডমিন প্যানেল</h1>
+          <p class="helper">লগইন করা এডমিন এখান থেকে নোটিশ যোগ/মুছতে পারবেন।</p>
+        </div>
+        <button class="btn-danger" type="button" id="logoutBtn">লগআউট</button>
+      </div>
 
       <form id="noticeForm">
         <div class="field">
@@ -148,98 +193,146 @@
 
       <div class="notices" id="adminNoticeList"></div>
       <a class="top-link" href="index.html">← হোম পেজে ফিরে যাও</a>
-    </div>
+    </section>
   </div>
 
-  <script>
-    (function () {
-      const key = "juid_notices";
-      const defaults = [
-        {
-          title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
-          date: "2026-03-02",
-          message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
-        },
-        {
-          title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
-          date: "2026-04-20",
-          message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
-        }
-      ];
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-      const form = document.getElementById("noticeForm");
-      const list = document.getElementById("adminNoticeList");
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxJSBLbuunfTF7gbkNL2g8-fNXdsIejFI",
+      authDomain: "jamiatululoomilislamiadhaka.firebaseapp.com",
+      projectId: "jamiatululoomilislamiadhaka",
+      storageBucket: "jamiatululoomilislamiadhaka.firebasestorage.app",
+      messagingSenderId: "172395531641",
+      appId: "1:172395531641:web:27e451c2700a9f3debb3a8",
+      measurementId: "G-YDG45LK4C6"
+    };
 
-      function getNotices() {
-        try {
-          const raw = localStorage.getItem(key);
-          if (!raw) return [...defaults];
-          const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed : [...defaults];
-        } catch (_) {
-          return [...defaults];
-        }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const key = "juid_notices";
+    const defaults = [
+      {
+        title: "রমজান মাসের বিশেষ ক্লাস সময়সূচি",
+        date: "2026-03-02",
+        message: "ফজরের পর এবং আসরের পর অতিরিক্ত দরস অনুষ্ঠিত হবে। সকল ছাত্রকে সময়মত উপস্থিত থাকার অনুরোধ করা হচ্ছে।"
+      },
+      {
+        title: "ভর্তি ফর্ম জমা দেওয়ার শেষ তারিখ",
+        date: "2026-04-20",
+        message: "নতুন শিক্ষাবর্ষের ভর্তি ফর্ম ২০ এপ্রিল ২০২৬ তারিখ পর্যন্ত অফিসে জমা নেওয়া হবে।"
+      }
+    ];
+
+    const loginPanel = document.getElementById("loginPanel");
+    const adminPanel = document.getElementById("adminPanel");
+    const loginForm = document.getElementById("loginForm");
+    const loginStatus = document.getElementById("loginStatus");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const form = document.getElementById("noticeForm");
+    const list = document.getElementById("adminNoticeList");
+
+    function getNotices() {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return [...defaults];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...defaults];
+      } catch (_) {
+        return [...defaults];
+      }
+    }
+
+    function saveNotices(notices) {
+      localStorage.setItem(key, JSON.stringify(notices));
+    }
+
+    function render() {
+      const notices = getNotices();
+
+      if (!notices.length) {
+        list.innerHTML = "<div class='notice-item'>কোনো নোটিশ পাওয়া যায়নি।</div>";
+        return;
       }
 
-      function saveNotices(notices) {
-        localStorage.setItem(key, JSON.stringify(notices));
+      list.innerHTML = notices
+        .map((notice, index) => `
+          <article class="notice-item">
+            <h3>${notice.title}</h3>
+            <span class="meta">তারিখ: ${notice.date}</span>
+            <p>${notice.message}</p>
+            <button type="button" class="btn-danger" data-index="${index}">মুছে ফেলো</button>
+          </article>
+        `)
+        .join("");
+    }
+
+    function togglePanels(isLoggedIn) {
+      loginPanel.classList.toggle("hidden", isLoggedIn);
+      adminPanel.classList.toggle("hidden", !isLoggedIn);
+      if (isLoggedIn) render();
+    }
+
+    loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      loginStatus.textContent = "";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginForm.reset();
+      } catch (error) {
+        loginStatus.textContent = "লগইন ব্যর্থ। ইমেইল/পাসওয়ার্ড সঠিক কিনা যাচাই করুন।";
       }
+    });
 
-      function render() {
-        const notices = getNotices();
+    logoutBtn.addEventListener("click", async function () {
+      await signOut(auth);
+    });
 
-        if (!notices.length) {
-          list.innerHTML = "<div class='notice-item'>কোনো নোটিশ পাওয়া যায়নি।</div>";
-          return;
-        }
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-        list.innerHTML = notices
-          .map((notice, index) => `
-            <article class="notice-item">
-              <h3>${notice.title}</h3>
-              <span class="meta">তারিখ: ${notice.date}</span>
-              <p>${notice.message}</p>
-              <button type="button" class="btn-danger" data-index="${index}">মুছে ফেলো</button>
-            </article>
-          `)
-          .join("");
-      }
+      const title = document.getElementById("noticeTitle").value.trim();
+      const date = document.getElementById("noticeDate").value;
+      const message = document.getElementById("noticeMessage").value.trim();
+      if (!title || !date || !message) return;
 
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const title = document.getElementById("noticeTitle").value.trim();
-        const date = document.getElementById("noticeDate").value;
-        const message = document.getElementById("noticeMessage").value.trim();
-        if (!title || !date || !message) return;
-
-        const notices = getNotices();
-        notices.unshift({ title, date, message });
-        saveNotices(notices);
-        form.reset();
-        render();
-      });
-
-      list.addEventListener("click", function (event) {
-        const btn = event.target.closest("button[data-index]");
-        if (!btn) return;
-
-        const notices = getNotices();
-        const index = Number(btn.dataset.index);
-        if (Number.isNaN(index)) return;
-
-        notices.splice(index, 1);
-        saveNotices(notices);
-        render();
-      });
-
-      document.getElementById("resetNotices").addEventListener("click", function () {
-        saveNotices([...defaults]);
-        render();
-      });
-
+      const notices = getNotices();
+      notices.unshift({ title, date, message });
+      saveNotices(notices);
+      form.reset();
       render();
-    })();
+    });
+
+    list.addEventListener("click", function (event) {
+      const btn = event.target.closest("button[data-index]");
+      if (!btn) return;
+
+      const notices = getNotices();
+      const index = Number(btn.dataset.index);
+      if (Number.isNaN(index)) return;
+
+      notices.splice(index, 1);
+      saveNotices(notices);
+      render();
+    });
+
+    document.getElementById("resetNotices").addEventListener("click", function () {
+      saveNotices([...defaults]);
+      render();
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      togglePanels(Boolean(user));
+      if (!user) loginStatus.textContent = "";
+    });
   </script>
 </body>
 </html>
