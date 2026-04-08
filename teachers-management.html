@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শিক্ষক ডিরেক্টরি ব্যবস্থাপনা</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d3b2e;
+      --accent: #b78a2f;
+      --bg: #f7f4eb;
+      --surface: #ffffff;
+      --border: rgba(13, 59, 46, 0.14);
+      --text: #173228;
+      --muted: #607066;
+      --danger: #9f2d2d;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Hind Siliguri", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 24px));
+      margin: 26px auto 40px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 36px rgba(8, 36, 28, 0.08);
+      padding: 18px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 { margin: 0; color: var(--primary); }
+
+    .home-link {
+      text-decoration: none;
+      background: rgba(13, 59, 46, 0.1);
+      color: var(--primary);
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+
+    .helper {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .form-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+    }
+
+    .field { display: grid; gap: 6px; }
+
+    label { font-weight: 700; color: var(--primary); }
+
+    input {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      width: 100%;
+      background: #fff;
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: rgba(13, 59, 46, 0.11); color: var(--primary); }
+    .btn-danger { background: rgba(159, 45, 45, 0.12); color: var(--danger); }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .toolbar input { width: min(360px, 100%); }
+
+    .badge {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(13, 59, 46, 0.1);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--primary);
+      background: rgba(13, 59, 46, 0.05);
+      font-size: 0.95rem;
+    }
+
+    .status {
+      margin: 10px 0 0;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .empty {
+      padding: 14px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: rgba(13, 59, 46, 0.03);
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="panel">
+      <div class="header-row">
+        <h1>শিক্ষক ডিরেক্টরি ব্যবস্থাপনা</h1>
+        <a class="home-link" href="teachers-directory.html">ডিরেক্টরি পেজে ফিরুন</a>
+      </div>
+      <p class="helper">এখানে শিক্ষকের নাম, পদবী, ঠিকানা ও মোবাইল নম্বর যোগ, এডিট এবং রিমুভ করতে পারবেন। তথ্য ব্রাউজারের localStorage-এ সেভ থাকবে।</p>
+
+      <form id="teacherForm">
+        <input type="hidden" id="teacherId">
+        <div class="form-grid">
+          <div class="field">
+            <label for="teacherName">শিক্ষকের নাম</label>
+            <input id="teacherName" required>
+          </div>
+          <div class="field">
+            <label for="designation">পদবী</label>
+            <input id="designation" required>
+          </div>
+          <div class="field">
+            <label for="address">ঠিকানা</label>
+            <input id="address" required>
+          </div>
+          <div class="field">
+            <label for="phone">মোবাইল নাম্বার</label>
+            <input id="phone" inputmode="numeric" required>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary" id="saveBtn">তথ্য সংরক্ষণ</button>
+          <button type="button" class="btn-secondary" id="resetBtn">ফর্ম রিসেট</button>
+        </div>
+        <p class="status" id="statusText"></p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input id="searchInput" placeholder="সার্চ করুন: নাম, পদবী, ঠিকানা বা নাম্বার...">
+        <span class="badge" id="countBadge">মোট শিক্ষক: 0</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>শিক্ষকের নাম</th>
+              <th>পদবী</th>
+              <th>ঠিকানা</th>
+              <th>মোবাইল নাম্বার</th>
+              <th>অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody id="teacherTableBody"></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty">এখনও কোনো শিক্ষকের তথ্য যোগ করা হয়নি।</div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "teachers_management_data_v1";
+
+    const teacherForm = document.getElementById("teacherForm");
+    const teacherIdInput = document.getElementById("teacherId");
+    const teacherNameInput = document.getElementById("teacherName");
+    const designationInput = document.getElementById("designation");
+    const addressInput = document.getElementById("address");
+    const phoneInput = document.getElementById("phone");
+    const resetBtn = document.getElementById("resetBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const statusText = document.getElementById("statusText");
+    const teacherTableBody = document.getElementById("teacherTableBody");
+    const searchInput = document.getElementById("searchInput");
+    const countBadge = document.getElementById("countBadge");
+    const emptyState = document.getElementById("emptyState");
+
+    let teachers = loadTeachers();
+
+    function loadTeachers() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveTeachers() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(teachers));
+    }
+
+    function clearForm() {
+      teacherIdInput.value = "";
+      teacherNameInput.value = "";
+      designationInput.value = "";
+      addressInput.value = "";
+      phoneInput.value = "";
+      saveBtn.textContent = "তথ্য সংরক্ষণ";
+    }
+
+    function setStatus(message) {
+      statusText.textContent = message;
+      setTimeout(() => {
+        if (statusText.textContent === message) {
+          statusText.textContent = "";
+        }
+      }, 2500);
+    }
+
+    function getFilteredTeachers() {
+      const query = searchInput.value.trim().toLowerCase();
+      if (!query) return teachers;
+
+      return teachers.filter((teacher) => (
+        teacher.name.toLowerCase().includes(query)
+        || teacher.designation.toLowerCase().includes(query)
+        || teacher.address.toLowerCase().includes(query)
+        || teacher.phone.toLowerCase().includes(query)
+      ));
+    }
+
+    function renderTeachers() {
+      const filtered = getFilteredTeachers();
+      teacherTableBody.innerHTML = "";
+
+      filtered.forEach((teacher) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${teacher.name}</td>
+          <td>${teacher.designation}</td>
+          <td>${teacher.address}</td>
+          <td>${teacher.phone}</td>
+          <td>
+            <button type="button" class="btn-secondary" data-action="edit" data-id="${teacher.id}">এডিট</button>
+            <button type="button" class="btn-danger" data-action="delete" data-id="${teacher.id}">রিমুভ</button>
+          </td>
+        `;
+        teacherTableBody.appendChild(row);
+      });
+
+      countBadge.textContent = `মোট শিক্ষক: ${teachers.length}`;
+      emptyState.style.display = teachers.length ? "none" : "block";
+    }
+
+    teacherForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const payload = {
+        id: teacherIdInput.value || crypto.randomUUID(),
+        name: teacherNameInput.value.trim(),
+        designation: designationInput.value.trim(),
+        address: addressInput.value.trim(),
+        phone: phoneInput.value.trim()
+      };
+
+      if (!payload.name || !payload.designation || !payload.address || !payload.phone) {
+        setStatus("সবগুলো তথ্য পূরণ করুন।");
+        return;
+      }
+
+      const existingIndex = teachers.findIndex((teacher) => teacher.id === payload.id);
+      if (existingIndex >= 0) {
+        teachers[existingIndex] = payload;
+        setStatus("শিক্ষকের তথ্য আপডেট হয়েছে।");
+      } else {
+        teachers.unshift(payload);
+        setStatus("নতুন শিক্ষক যোগ হয়েছে।");
+      }
+
+      saveTeachers();
+      clearForm();
+      renderTeachers();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      clearForm();
+      setStatus("ফর্ম রিসেট করা হয়েছে।");
+    });
+
+    searchInput.addEventListener("input", renderTeachers);
+
+    teacherTableBody.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+
+      const teacherId = button.dataset.id;
+      const teacher = teachers.find((item) => item.id === teacherId);
+      if (!teacher) return;
+
+      if (button.dataset.action === "edit") {
+        teacherIdInput.value = teacher.id;
+        teacherNameInput.value = teacher.name;
+        designationInput.value = teacher.designation;
+        addressInput.value = teacher.address;
+        phoneInput.value = teacher.phone;
+        saveBtn.textContent = "তথ্য আপডেট করুন";
+        setStatus("এডিট মোড চালু হয়েছে।");
+        teacherForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      if (button.dataset.action === "delete") {
+        teachers = teachers.filter((item) => item.id !== teacherId);
+        saveTeachers();
+        clearForm();
+        renderTeachers();
+        setStatus("শিক্ষকের তথ্য রিমুভ হয়েছে।");
+      }
+    });
+
+    renderTeachers();
+  </script>
+</body>
+</html>
