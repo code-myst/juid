@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d3b2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/dbdkxzx7z/image/upload/q_auto/f_auto/v1775664133/FB_IMG_1775663997602_rtc0qb.jpg">
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dbdkxzx7z/image/upload/q_auto/f_auto/v1775664133/FB_IMG_1775663997602_rtc0qb.jpg">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>নেসাব ও নেসাব বিশ্লেষণ | আল ইনতিবাহ</title>
   <meta name="description" content="জামিয়াতুল উলূমিল ইসলামিয়া ঢাকা-এর নেসাব ও নেসাব বিশ্লেষণ।">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -347,5 +353,14 @@
       <p><a href="index.html">হোম পেজ</a></p>
     </div>
   </footer>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch((error) => {
+          console.warn("Service worker registration failed:", error);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
